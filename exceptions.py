@@ -23,7 +23,20 @@ class KeyExistingError(PipelineErros, ComponentErrors):
         if case == 'add_variable':
             msg = 'A variable by that name already exists in the pipeline and cannot be overwritten. ' + \
                   'Did you already set it somewhere else?'
-        elif case == 'runtime_args':
+        else:
+            msg = ''
+        if case in PipelineErros.supported_cases:
+            PipelineErros.__init__(self, var_name=var_name, pipeline_name=pipeline_name, case=case, child_msg=msg)
+        elif case in ComponentErrors.supported_cases:
+            ComponentErrors.__init__(self, var_name=var_name, pipeline_name=pipeline_name, case=case,
+                                     child_msg=msg, comp_obj=comp_obj)
+        else:
+            raise NotImplementedError("Case \"{}\" not supported for KeyExistingError".format(case))
+
+
+class KeyInvalidError(PipelineErros, ComponentErrors):
+    def __init__(self, var_name, case, pipeline_name=None, comp_obj=None):
+        if case == 'runtime_args':
             msg = 'Variable with value \"{}\" was provided as part of \"runtime_args\", '.format(var_name) + \
                   'but it cannot be accepted. You should only provide variables that have been recorded by some ' + \
                   'component, or added to some pipeline. In any case, access them via ' + \
@@ -37,7 +50,7 @@ class KeyExistingError(PipelineErros, ComponentErrors):
             ComponentErrors.__init__(self, var_name=var_name, pipeline_name=pipeline_name, case=case,
                                      child_msg=msg, comp_obj=comp_obj)
         else:
-            raise NotImplementedError("Case \"{}\" not supported for KeyNonExistentError".format(case))
+            raise NotImplementedError("Case \"{}\" not supported for KeyInvalidError".format(case))
 
 
 class KeyNonExistentError(PipelineErros, ComponentErrors):
@@ -51,12 +64,6 @@ class KeyNonExistentError(PipelineErros, ComponentErrors):
         elif case == 'to_print':
             msg = 'Variable with name \"{}\" was requested as part of \"to_print\", '.format(var_name) + \
                   'but it does not exist in the component function.'
-        elif case == 'runtime_args':
-            msg = 'Variable with name \"{}\" was provided as part of \"runtime_args\", '.format(var_name) + \
-                  'but it does not exist in this pipeline, and hence cannot be fed to the function.'
-            msg += '\nDid you forget to add this variable as a pipeline variable?'
-        elif case in ['share_from', 'share_with']:
-            msg = 'A variable by that name does not exist in the former.'
         else:
             msg = ''
         if case in PipelineErros.supported_cases:
