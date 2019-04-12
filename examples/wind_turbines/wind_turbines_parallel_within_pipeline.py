@@ -30,7 +30,6 @@ def main_func(keys, model_path):
     import numpy as np
 
     from appsci_utils.generator.transforms import cast_transform, rescale_feature_transform
-    from deploy import Component, Pipeline, repeator
 
     from local_func_library import (
         get_raster, load_model_func, loop_key_deployer, model_pred_wrapper,

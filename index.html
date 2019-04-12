@@ -497,6 +497,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#debugging" title="Debugging" class="md-nav__link">
+    Debugging
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#contributing-to-function-library" title="Contributing to Function Library" class="md-nav__link">
     Contributing to Function Library
   </a>
@@ -607,10 +614,18 @@ See <a href="#contributing-to-function-library">Contributing to Function Library
 <h3 id="io-handling"><strong>I/O Handling</strong></h3>
 <p>Components, when put inside a pipeline, are not automatically connected. The user needs connect them by specifying, for each Component, where it is getting the input variables from, and what variables should be returned at the end of its execution.</p>
 <h3 id="variable-namespace"><strong>Variable Namespace</strong></h3>
-<p>Since a user controls all the variable flow in a pipeline, it is crucial to understand the scope of each variable created.
-- <code>Static Component Variables</code>: These are visible only to the Component they are set with. Intended use case is to pass all those input variables to a Component function that have a static value and are not needed in any other Component. Consider this to be the equivalent of wrapping the function with <code>functools.partial</code>
-- <code>Runtime Component Variables</code>: These can be configured to receive values at runtime (i.e the point where the corresponding component function will be run), and can be shared with any other component. Intended use case is to pass I/O values between different components as the pipeline runs.
-- <code>Static Pipeline Variables</code>: These are visible to every Component that exists in the pipeline. Intended use case is to set all those input variables to a Component function that have a pre-determinable and static value, and are needed in two or more Components. As an alternative, you could use <code>Static Component Variables</code> and set them in each Component definition, but it could get redundant and tedious.</p>
+<p>Since a user controls all the variable flow in a pipeline, it is crucial to understand the scope of each variable created.</p>
+<ul>
+<li>
+<p><code>Static Component Variables</code>: These are visible only to the Component they are set with. Intended use case is to pass all those input variables to a Component function that have a static value and are not needed in any other Component. Consider this to be the equivalent of wrapping the function with <code>functools.partial</code></p>
+</li>
+<li>
+<p><code>Runtime Component Variables</code>: These can be configured to receive values at runtime (i.e the point where the corresponding component function will be run), and can be shared with any other component. Intended use case is to pass I/O values between different components as the pipeline runs.</p>
+</li>
+<li>
+<p><code>Static Pipeline Variables</code>: These are visible to every Component that exists in the pipeline. Intended use case is to set all those input variables to a Component function that have a pre-determinable and static value, and are needed in two or more Components. As an alternative, you could use <code>Static Component Variables</code> and set them in each Component definition, but it could get redundant and tedious.</p>
+</li>
+</ul>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>Components handle automatic deletion of <code>Runtime Component Variables</code> (from the same pipeline) once no longer required. See <a href="#variable-deletion-routines">Variable Deletion Routines</a></p>
@@ -965,13 +980,30 @@ To setup your pipeline to multiprocess this way, provide/do the following:</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="highlight"><pre><span></span><span class="n">pipeline</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">keys</span><span class="p">),</span> <span class="n">num_cores</span><span class="o">=</span><span class="n">num_cores</span><span class="p">)</span>
-<span class="c1"># The first kwarg here is similar to what `pipeline.run` supports</span>
+<span class="c1"># The value that goes to `kwargs` is a little different from the `run` method. See the INFO below</span>
 </pre></div>
 
 </div>
 <ul>
 <li>There is no need to call the <code>wait</code> method; it is handled internally.</li>
 </ul>
+<div class="admonition info">
+<p class="admonition-title">kwargs to <code>map</code></p>
+<p>Passing <code>kwargs</code> to map is a little different than that in <code>run</code> method. Here, it expects a dictionary <code>key: value</code>, where each <code>key</code> is the name of an input argument of the function of the first component in the pipeline, and each value is a data structure that supports value access by index (for eg. list, tuple) and it contains all the values that would be passed (one-at-a-time) to the function.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><span class="c1"># Let us say this is the function we need to run in parallel:</span>
+<span class="k">def</span> <span class="nf">my_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+  <span class="o">...</span>
+
+<span class="c1"># We have values of a as 2, 3, 4 and b as 1, 6, 7.</span>
+<span class="c1"># Then do:</span>
+<span class="n">inp_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">b</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">kwargs</span><span class="o">=</span><span class="n">inp_dict</span><span class="p">,</span> <span class="n">num_cores</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+</div>
 <p><strong>At this time, you cannot multiprocess within and across pipeline at the same time</strong>.
 As such, if you call the <code>map</code> method and have <code>parallelize=True</code> set during pipeline compilation, it will throw an exception. Also, when calling the <code>map</code> method, <code>queue_size</code> and <code>run_async</code> of a component are irrelevant.</p>
 <h3 id="comparison-of-multiprocessing-vs-not"><strong>Comparison of Multiprocessing vs Not</strong></h3>
@@ -1246,6 +1278,23 @@ Therefore, any pipeline that you want to run within Tasks should be wrapped in a
 <p>See <a href="examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">an example for multiprocessing within pipeline</a></p>
 <p>See <a href="examples/sklearn/sklearn_parallel_across_pipeline.py">an example for multiprocessing across pipeline</a></p>
 <p><br/><br/></p>
+<h2 id="debugging"><strong>Debugging</strong></h2>
+<p>The framework tries to provide a bunch of options for debugging errors / unexpected outputs. These are especially helpful when multiprocessing.</p>
+<ul>
+<li>
+<p>At the simplest, you could use the <code>to_print</code> or <code>to_record</code> attributes of a Component to debug when the output does not match the expected output.</p>
+</li>
+<li>
+<p>A bit further, you could create a debugger component and plug it in between the components you want to examine. With this debugger component, you can get all the data you want and anaylize / save variables.</p>
+</li>
+<li>
+<p>If you are trying to debug errors, then you could use the flag <code>debug=True</code> when initializing a component. In this mode the component prints every crucial tiny operation, and those prints formatted as mentioned previously to provide easier understanding of the execution stages.</p>
+</li>
+<li>
+<p>Formatted and well understood Exceptions may also be helpful in debugging. See <a href="#exceptions">Exceptions</a></p>
+</li>
+</ul>
+<p><br/><br/></p>
 <h2 id="contributing-to-function-library"><strong>Contributing to Function Library</strong></h2>
 <p>Every function in the function library must exist in one of the following states:</p>
 <ul>
@@ -1291,16 +1340,24 @@ The return statement would look like <code>return locals()</code></p>
 </div>
 <p><br/><br/></p>
 <h2 id="exception-handling"><strong>Exception Handling</strong></h2>
-<p>To make debugging easier, the Pipeline handles some exceptions efficiently for you to quickly understand what went wrong.</p>
+<p>To make debugging easier, the framework handles some exceptions efficiently for you to quickly understand what went wrong.</p>
+<p>Most of the errors are caught before a pipeline is even run, but there are some runtime-errors that are still caught and reported neatly. They are:</p>
 <ul>
 <li>
-<p><code>KeyExistingError</code>: You would see this exception in case you try to overwrite an existing pipeline key by either trying to add a Pipeline Variable (via <code>.add_pipeline_variable</code>) that has a name clash, or by trying to <code>share_from</code> or <code>share_with</code> Pipeline Variables that have a name clash (because they already exist with that name in the other pipeline).</p>
+<p><code>KeyExistingError</code>: You would see this exception in case you try to overwrite an existing pipeline key by trying to add a Pipeline Variable (via <code>.add_pipeline_variable</code>) that has a name clash.</p>
 </li>
 <li>
-<p><code>KeyNonExistentError</code>: You would see this exception in case you try to access pipeline variables that do not exist because either you did not set them (via <code>.add_pipeline_variable</code>), or they did not get recorded (via <code>.to_record</code>), or you provided an incorrect name.</p>
+<p><code>KeyInvalidError</code>: You would see this exception if the value you provide while setting <code>runtime_args</code> is invalid (for reasons such as it is a literal static value, or it's name is actually reserved)</p>
+</li>
+<li>
+<p><code>KeyNonExistentError</code>: You would see this exception in case you try to access component variables as part of <code>to_record</code> or <code>to_print</code> or <code>to_save</code> but the component function cannot find any variable by that name.</p>
 </li>
 </ul>
 <p>Any errors in the function definition, or otherwise are handled by python natively.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>When running in multiprocessing mode, if any error is caught by a child process, the parent throws it to stdout, shuts down every other child process, and the program terminates.</p>
+</div>
 <p><br/><br/></p>
 <h2 id="quick-pointers"><strong>Quick Pointers</strong></h2>
 <ul>
