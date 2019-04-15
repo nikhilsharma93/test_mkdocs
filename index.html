@@ -705,7 +705,7 @@ The user provides where a component gets its input variables from, and what outp
 <h4 id="passing-pipeline-run-variables"><strong>Passing Pipeline-run Variables</strong></h4>
 <p>This is useful when a pipeline is wrapped inside another pipeline, and some arguments need to be passed during the execution of the outer pipeline to the inner pipeline. Use <code>inner_pipeline.run(kwargs=&lt;kwargs&gt;)</code>. See <a href="#wrapping-pipeline-inside-another-pipeline">Wrapping Pipeline inside another Pipeline</a> for an example.</p>
 <h4 id="passing-pipeline-map-variables"><strong>Passing Pipeline-map Variables</strong></h4>
-<p>Analogous to <code>Passing Pipeline-run Variables</code>, this method is useful when you are doing a <code>map</code> call on a pipeline instead of a <code>run</code> call (see <a href="#multiprocessing-across-pipeline">Multiprocessing Across Pipeline</a>). You could do <code>inner_pipeline.map(kwargs=&lt;kwargs&gt;)</code>. See <a href="#multiprocessing-examples">Multiprocessing Examples</a></p>
+<p>Analogous to <code>Passing Pipeline-run Variables</code>, this method is useful when you are doing a <code>map</code> call on a pipeline instead of a <code>run</code> call (see <a href="#multiprocessing-across-pipeline">Multiprocessing Across Pipeline</a>). You could do <code>inner_pipeline.map(kwargs=&lt;kwargs&gt;)</code> or <code>inner_pipeline.map(n_times=&lt;n_times&gt;)</code>. See <a href="#multiprocessing-examples">Multiprocessing Examples</a></p>
 <p><br/><br/></p>
 <h2 id="setting-output-variables"><strong>Setting Output Variables</strong></h2>
 <p>A user can specify which variables from a function should the Component record at the end of its execution, so that it can be made available for use by other components in that/other pipeline(s). Use the <code>to_record</code> attribute of a Component to specify these variables. It accepts a dictionary <code>(key, value)</code>, where <code>key</code> is the name of the variable in the component's function and <code>value</code> is the name by which you want this variable to be stored by the component.</p>
@@ -769,6 +769,8 @@ The user provides where a component gets its input variables from, and what outp
 
 <span class="c1"># If you want to multiprocess across pipelines (this is different from multiprocessing within a pipeline)</span>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">kwargs</span><span class="o">=&lt;</span><span class="n">kwargs_to_pass</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">num_cores</span><span class="o">=</span><span class="n">num_cores</span><span class="p">)</span>
+<span class="c1"># or </span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">n_times</span><span class="o">=&lt;</span><span class="n">n_times</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">num_cores</span><span class="o">=</span><span class="n">num_cores</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -788,7 +790,7 @@ See <a href="#multiprocessing-across-pipeline">Multiprocessing Across Pipeline</
 </div>
 <p>Whenever the <code>summarize</code> method is called, it is able to provide the summary for all runs done until that point. As such, to get a summary for the whole deployment, add this as the last line of the code.</p>
 <p>Here is a summary of from the <a href="examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">wind turbines example with multiprocessing</a></p>
-<p><img alt="" src="examples/wind_turbines/summary_graph.png" /></p>
+<p><img alt="" src="examples/wind_turbines/wind_turbines_summary.png" /></p>
 <p><br/><br/></p>
 <h2 id="variable-sharing-routines"><strong>Variable Sharing Routines</strong></h2>
 <p>Components allow variable sharing by providing a routine like <code>&lt;component_obj&gt;.FutureVariable.&lt;variable_name&gt;</code>. When recording a variable and passing it as a <code>runtime_arg</code> for another component via this routine, care must be taken if the component functions are doing in-place operations.
@@ -944,8 +946,13 @@ To setup your pipeline to multiprocess this way, provide/do the following:</p>
 </ul>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<div class="highlight"><pre><span></span><span class="n">pipeline</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">keys</span><span class="p">),</span> <span class="n">num_cores</span><span class="o">=</span><span class="n">num_cores</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="c1"># If you have an kwargs to be passed to the pipeline (i.e to the first component in the pipeline), use the following signature</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">keys</span><span class="p">),</span> <span class="n">num_cores</span><span class="o">=</span><span class="n">num_cores</span><span class="p">)</span>
 <span class="c1"># The value that goes to `kwargs` is a little different from the `run` method. See the INFO below</span>
+
+<span class="c1"># If you don&#39;t have any kwargs to pass, use the following signature</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">n_times</span><span class="o">=</span><span class="n">n_times</span><span class="p">,</span> <span class="n">num_cores</span><span class="o">=</span><span class="n">num_cores</span><span class="p">)</span>
+<span class="c1"># where n_times is the number of times you want this pipeline to run.</span>
 </pre></div>
 
 </div>
@@ -954,7 +961,7 @@ To setup your pipeline to multiprocess this way, provide/do the following:</p>
 </ul>
 <div class="admonition info">
 <p class="admonition-title">kwargs to <code>map</code></p>
-<p>Passing <code>kwargs</code> to map is a little different than that in <code>run</code> method. Here, it expects a dictionary <code>key: value</code>, where each <code>key</code> is the name of an input argument of the function of the first component in the pipeline, and each value is a data structure that supports value access by index (for eg. list, tuple) and it contains all the values that would be passed (one-at-a-time) to the function.</p>
+<p>Passing <code>kwargs</code> to map is a little different than that in <code>run</code> method. Here, it expects a dictionary <code>key: value</code>, where each <code>key</code> is the name of an input argument of the function of the first component in the pipeline, and each value is a data structure (for eg. list, tuple) that supports value access by index, supports the <code>len</code> method to return its length, and it contains all the values that would be passed (one-at-a-time) to the function.</p>
 </div>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
@@ -968,6 +975,10 @@ To setup your pipeline to multiprocess this way, provide/do the following:</p>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">kwargs</span><span class="o">=</span><span class="n">inp_dict</span><span class="p">,</span> <span class="n">num_cores</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Do not pass both <code>kwargs</code> and <code>n_times</code></p>
+<p>You should pass exactly one of <code>kwargs</code> and <code>n_times</code> depending on your use case. If you pass a value in <code>kwargs</code>, then the number of times to run the pipeline is inferred from the length of the data structure of any of the <code>values</code> in the <code>kwargs</code> you pass.</p>
 </div>
 <p><strong>At this time, you cannot multiprocess within and across pipeline at the same time</strong>.
 As such, if you call the <code>map</code> method and have <code>parallelize=True</code> set during pipeline compilation, it will throw an exception. Also, when calling the <code>map</code> method, <code>queue_size</code> and <code>run_async</code> of a component are irrelevant.</p>

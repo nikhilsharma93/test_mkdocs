@@ -131,6 +131,6 @@ worker.compile_pipeline([a0_getkeys, a1_spinworker])
 worker.run()
 
 # Summarize
-# Pipeline.summarize()
+Pipeline.summarize()
 # Pipeline.summarize(visualize_path='wind_turbines.png')
 print('\nTOTAL TIME: ', datetime.now() - startTime)

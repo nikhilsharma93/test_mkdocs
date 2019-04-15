@@ -60,6 +60,7 @@ def main_func(keys, model_path):
     c1_preprocess.runtime_args = {'batch_imgs': c0_raster.FutureVariable.batch_imgs}
     c1_preprocess.to_record = repeator('batch_imgs')
 
+    # Just for fun, let us run the prediction step in debug mode
     c3_model_predict = Component(name='predict', func=model_pred_wrapper)
     c3_model_predict.runtime_args = {'batch_imgs': c1_preprocess.FutureVariable.batch_imgs,
                                      'break_tilesize': pipeline.FutureVariable.break_tilesize,
@@ -122,6 +123,6 @@ worker.compile_pipeline([a0_getkeys, a1_spinworker])
 worker.run()
 
 # Summarize
-# Pipeline.summarize()
+Pipeline.summarize()
 # Pipeline.summarize(visualize_path='wind_turbines.png')
 print('\nTOTAL TIME: ', datetime.now() - startTime)
