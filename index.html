@@ -187,6 +187,42 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="EXAMPLES/" title="Examples" class="md-nav__link">
+      Examples
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
+      Functions and Methods
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="INSTALLATION/" title="Installation" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -478,42 +514,6 @@
   
 </nav>
     
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="INSTALLATION/" title="Installation" class="md-nav__link">
-      Installation
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
-      Functions and Methods
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="EXAMPLES/" title="Examples" class="md-nav__link">
-      Examples
-    </a>
   </li>
 
         
@@ -907,7 +907,7 @@ The user provides where a component gets its input variables from, and what outp
 
 </div>
 <h4 id="passing-runtime-component-variables"><strong>Passing Runtime Component Variables</strong></h4>
-<p>If a Component function should get some of its input values from a <code>Runtime Component Variable</code> or a <code>Pipeline Variable</code> (this could be either because the value is coming from a previous step in the pipeline at runtime, or because the value is coming from a preset Pipeline Variable), you should use the <code>runtime_args</code> attribute of a Component to let it know where it should get the inputs from. It accepts a dictionary <code>(key, value)</code>, where each <code>key</code> is the name of the variable (in the component's function definition) that the value is passed to, and each <code>value</code> is variable that would be passed. Every <code>key</code> is of <code>str</code> type, and every <code>value</code> takes either <code>&lt;component_obj&gt;.FutureVariable.&lt;variable_name&gt;</code> or <code>&lt;pipeline_obj&gt;.FutureVariable.&lt;variable_name&gt;</code> depending on where it is coming from. Note that you cannot provide any other variable as a <code>value</code>. Also, variable names starting with single or double underscore are prohibited.</p>
+<p>If a Component function should get some of its input values from a <code>Runtime Component Variable</code> or a <code>Pipeline Variable</code> (this could be either because the value is coming from a previous step in the pipeline at runtime, or because the value is coming from a preset Pipeline Variable), you should use the <code>runtime_args</code> attribute of a Component to let it know where it should get the inputs from. It accepts a dictionary <code>(key, value)</code>, where each <code>key</code> is the name of the variable (in the component's function definition) that the value is passed to, and each <code>value</code> is variable that would be passed. Every <code>key</code> is of <code>str</code> type, and every <code>value</code> takes either <code>&lt;component_obj&gt;.future_variable.&lt;variable_name&gt;</code> or <code>&lt;pipeline_obj&gt;.future_variable.&lt;variable_name&gt;</code> depending on where it is coming from. Note that you cannot provide any other variable as a <code>value</code>. Also, variable names starting with single or double underscore are prohibited.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="highlight"><pre><span></span><span class="c1"># Let&#39;s create two components that we intend to run serially</span>
@@ -929,7 +929,7 @@ The user provides where a component gets its input variables from, and what outp
 
 <span class="c1"># As for comp2, it gets the tilesize from whatever comp1 returns as tilesize.</span>
 <span class="c1"># To do this, specify the runtime_arg of comp2 to get its `tilesize` from the output value of `tilesize` of comp1</span>
-<span class="n">comp2</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">tilesize</span><span class="o">=</span><span class="n">comp1</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">tilesize</span><span class="p">)</span>
+<span class="n">comp2</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">tilesize</span><span class="o">=</span><span class="n">comp1</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">tilesize</span><span class="p">)</span>
 <span class="c1"># NOTE: we should also ask comp1 to record its output `tilesize` so that comp2 can access it.</span>
 <span class="c1"># We look at it in the next section, &quot;Setting Output Variables&quot;</span>
 </pre></div>
@@ -945,11 +945,11 @@ The user provides where a component gets its input variables from, and what outp
 <span class="c1"># Now I can use this in any component.</span>
 <span class="c1"># For example, if I want to use this as the `tilesize` input argument for comp1 from the</span>
 <span class="c1"># previous example, I could do:</span>
-<span class="n">comp1</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">tilesize</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">unpadded_tilesize</span><span class="p">)</span>
+<span class="n">comp1</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">tilesize</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">unpadded_tilesize</span><span class="p">)</span>
 <span class="c1"># And I will not need to do comp1.static_args = dict(tilesize=1024)</span>
 
 <span class="c1"># NOTE: It is illegal to pass in a pipeline variable as to static_args of a component</span>
-<span class="n">comp1</span><span class="o">.</span><span class="n">static_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">tilesize</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">unpadded_tilesize</span><span class="p">)</span>  <span class="c1"># Illegal</span>
+<span class="n">comp1</span><span class="o">.</span><span class="n">static_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">tilesize</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">unpadded_tilesize</span><span class="p">)</span>  <span class="c1"># Illegal</span>
 </pre></div>
 
 </div>
@@ -962,9 +962,9 @@ The user provides where a component gets its input variables from, and what outp
 <p>For understanding the lifetime of all these variables, see <a href="#variable-deletion-routines">Variable Deletion Routines</a></p>
 </div>
 <h4 id="passing-pipeline-run-variables"><strong>Passing Pipeline-run Variables</strong></h4>
-<p>This is useful when a pipeline is wrapped inside another pipeline, and some arguments need to be passed during the execution of the outer pipeline to the inner pipeline. Use <code>inner_pipeline.run(kwargs=&lt;kwargs&gt;)</code>. See <a href="/EXAMPLES/#wrapping-pipeline-inside-another-pipeline">Wrapping Pipeline inside another Pipeline</a> for an example.</p>
+<p>This is useful when a pipeline is wrapped inside another pipeline, and some arguments need to be passed during the execution of the outer pipeline to the inner pipeline. Use <code>inner_pipeline.run(kwargs=&lt;kwargs&gt;)</code>. See <a href="/test_mkdocs/EXAMPLES/#wrapping-pipeline-inside-another-pipeline">Wrapping Pipeline inside another Pipeline</a> for an example.</p>
 <h4 id="passing-pipeline-map-variables"><strong>Passing Pipeline-map Variables</strong></h4>
-<p>Analogous to <code>Passing Pipeline-run Variables</code>, this method is useful when you are doing a <code>map</code> call on a pipeline instead of a <code>run</code> call (see <a href="#multiprocessing-across-pipeline">Multiprocessing Across Pipeline</a>). You could do <code>inner_pipeline.map(kwargs=&lt;kwargs&gt;)</code> or <code>inner_pipeline.map(n_times=&lt;n_times&gt;)</code>. See <a href="/EXAMPLES/#multiprocessing-examples">Multiprocessing Examples</a></p>
+<p>Analogous to <code>Passing Pipeline-run Variables</code>, this method is useful when you are doing a <code>map</code> call on a pipeline instead of a <code>run</code> call (see <a href="#multiprocessing-across-pipeline">Multiprocessing Across Pipeline</a>). You could do <code>inner_pipeline.map(kwargs=&lt;kwargs&gt;)</code> or <code>inner_pipeline.map(n_times=&lt;n_times&gt;)</code>. See <a href="/test_mkdocs/EXAMPLES/#multiprocessing-examples">Multiprocessing Examples</a></p>
 <p><br/><br/></p>
 <h2 id="setting-output-variables"><strong>Setting Output Variables</strong></h2>
 <p>A user can specify which variables from a function should the Component record at the end of its execution, so that it can be made available for use by other components in that/other pipeline(s). Use the <code>to_record</code> attribute of a Component to specify these variables. It accepts a dictionary <code>(key, value)</code>, where <code>key</code> is the name of the variable in the component's function and <code>value</code> is the name by which you want this variable to be stored by the component.</p>
@@ -986,7 +986,7 @@ The user provides where a component gets its input variables from, and what outp
 <span class="c1"># Whenever this comp is run as part of the pipeline, at the end of the execution of my_func,</span>
 <span class="c1"># the values `a1` and `a2` are stored as `my_a1` and `a2` in that component `comp`.</span>
 <span class="c1"># Any component that runs after this component can then access those values as</span>
-<span class="c1"># comp.FutureVariable.my_a1, and comp.FutureVariable.a2</span>
+<span class="c1"># comp.future_variable.my_a1, and comp.future_variable.a2</span>
 
 <span class="c1"># It is important to note that the value of a variable that gets recorded is the one that exists</span>
 <span class="c1"># just before the function returns. Intermediate values cannot be recorded/accessed.</span>
@@ -1033,7 +1033,7 @@ The user provides where a component gets its input variables from, and what outp
 </pre></div>
 
 </div>
-<p>See <a href="/EXAMPLES/#wrapping-pipeline-inside-another-pipeline">an example</a> for understand the <code>run</code> method.
+<p>See <a href="/test_mkdocs/EXAMPLES/#wrapping-pipeline-inside-another-pipeline">an example</a> for understand the <code>run</code> method.
 See <a href="#multiprocessing-across-pipeline">Multiprocessing Across Pipeline</a> for details on the <code>map</code> method.</p>
 <p>The output to stdout includes timestamp, PID stamp, component name stamp, and run count stamp (i.e <code>i</code> where that component is being executed for the <code>i</code><sup>th</sup> time). These stamps are essentially helpful when multiprocessing to separate out messages and logs.</p>
 <p><br/><br/></p>
@@ -1048,11 +1048,11 @@ See <a href="#multiprocessing-across-pipeline">Multiprocessing Across Pipeline</
 
 </div>
 <p>Whenever the <code>summarize</code> method is called, it is able to provide the summary for all runs done until that point. As such, to get a summary for the whole deployment, add this as the last line of the code.</p>
-<p>Here is a summary of from the <a href="examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">wind turbines example with multiprocessing</a></p>
+<p>Here is a summary of from the <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/deployment/examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">wind turbines example with multiprocessing</a></p>
 <p><img alt="" src="examples/wind_turbines/wind_turbines_summary.png" /></p>
 <p><br/><br/></p>
 <h2 id="variable-sharing-routines"><strong>Variable Sharing Routines</strong></h2>
-<p>Components allow variable sharing by providing a routine like <code>&lt;component_obj&gt;.FutureVariable.&lt;variable_name&gt;</code>. When recording a variable and passing it as a <code>runtime_arg</code> for another component via this routine, care must be taken if the component functions are doing in-place operations.
+<p>Components allow variable sharing by providing a routine like <code>&lt;component_obj&gt;.future_variable.&lt;variable_name&gt;</code>. When recording a variable and passing it as a <code>runtime_arg</code> for another component via this routine, care must be taken if the component functions are doing in-place operations.
 Consider the following example</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
@@ -1078,10 +1078,10 @@ Consider the following example</p>
 <span class="n">comp1</span><span class="o">.</span><span class="n">to_record</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
 
 <span class="n">comp2</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="s1">&#39;comp2&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">my_func2</span><span class="p">)</span>
-<span class="n">comp2</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">comp1</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="n">comp2</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">comp1</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
 
 <span class="n">comp3</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="s1">&#39;comp3&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">my_func3</span><span class="p">)</span>
-<span class="n">comp3</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">comp1</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="n">comp3</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">comp1</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="s1">&#39;my_pipeline&#39;</span><span class="p">)</span>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">compile_pipeline</span><span class="p">([</span><span class="n">comp1</span><span class="p">,</span> <span class="n">comp2</span><span class="p">,</span> <span class="n">comp3</span><span class="p">])</span>
@@ -1109,7 +1109,7 @@ Consider the following example</p>
 <span class="p">[</span><span class="mf">15.</span> <span class="mf">15.</span> <span class="mf">15.</span> <span class="mf">15.</span><span class="p">]]</span>
 
 <span class="c1"># Even though we were intending to pass the output of comp1 to comp3, the fact that comp2 did an</span>
-<span class="c1"># in-place modification to `x` in my_func2 meant that when it was time for `comp1.FutureVariable.x`</span>
+<span class="c1"># in-place modification to `x` in my_func2 meant that when it was time for `comp1.future_variable.x`</span>
 <span class="c1"># to get evaluated by comp3, it was already modified.</span>
 </pre></div>
 
@@ -1125,18 +1125,18 @@ Consider the following example</p>
 <span class="n">comp1</span><span class="o">.</span><span class="n">to_record</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">c1_x</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
 
 <span class="n">comp2</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="n">comp2</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">c2_x</span><span class="o">=</span><span class="n">comp1</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="n">comp2</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">c2_x</span><span class="o">=</span><span class="n">comp1</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
 <span class="n">comp2</span><span class="o">.</span><span class="n">to_record</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
 
 <span class="n">comp3</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="n">comp3</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">c3_x</span><span class="o">=</span><span class="n">comp2</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="n">comp3</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">c3_x</span><span class="o">=</span><span class="n">comp2</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">compile_pipeline</span><span class="p">([</span><span class="n">comp1</span><span class="p">,</span> <span class="n">comp2</span><span class="p">,</span> <span class="n">comp3</span><span class="p">])</span>
 </pre></div>
 
 </div>
-<p>When the pipeline is run, the order of execution of components is <code>comp1-&gt;comp2-&gt;comp3</code>. After <code>comp2</code> uses <code>comp1.FutureVariable.x</code>, it is no longer needed, because <code>comp3</code> does not use it. As such, the framework goes ahead and deletes <code>comp1.FutureVariable.x</code>.</p>
+<p>When the pipeline is run, the order of execution of components is <code>comp1-&gt;comp2-&gt;comp3</code>. After <code>comp2</code> uses <code>comp1.future_variable.x</code>, it is no longer needed, because <code>comp3</code> does not use it. As such, the framework goes ahead and deletes <code>comp1.future_variable.x</code>.</p>
 <p>This deletion behavior is True for all such variables with the following restrictions:</p>
 <div class="admonition warning">
 <p class="admonition-title">Variables coming from <code>Pipeline Static Args</code> are not deleted.</p>
@@ -1144,7 +1144,7 @@ Consider the following example</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Variables coming from a component that runs in another pipeline are not deleted.</p>
-<p>This is because the source pipeline does not know if the destination pipeline is running in a loop or not. In the above example, if <code>comp1</code> was part of a different pipeline, then <code>comp1.FutureVariable.x</code> would not have been deleted. This aspect is crucial to understand when running pipelines in a loop and multiprocessing them (see <a href="#multiprocessing-within-pipeline">Multiprocessing Within Pipeline</a>)</p>
+<p>This is because the source pipeline does not know if the destination pipeline is running in a loop or not. In the above example, if <code>comp1</code> was part of a different pipeline, then <code>comp1.future_variable.x</code> would not have been deleted. This aspect is crucial to understand when running pipelines in a loop and multiprocessing them (see <a href="#multiprocessing-within-pipeline">Multiprocessing Within Pipeline</a>)</p>
 </div>
 <p><br/><br/></p>
 <h2 id="multiprocessing"><strong>Multiprocessing</strong></h2>
@@ -1262,9 +1262,9 @@ To setup your pipeline to multiprocess this way, provide/do the following:</p>
 <p><strong>At this time, you cannot multiprocess within and across pipeline at the same time</strong>.
 As such, if you call the <code>map</code> method and have <code>parallelize=True</code> set during pipeline compilation, it will throw an exception. Also, when calling the <code>map</code> method, <code>queue_size</code> and <code>run_async</code> of a component are irrelevant.</p>
 <h3 id="comparison-of-multiprocessing-vs-not"><strong>Comparison of Multiprocessing vs Not</strong></h3>
-<p>The following figure shows the advantage of multiprocessing within pipeline wrt the <a href="examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">wind_turbines example</a>
+<p>The following figure shows the advantage of multiprocessing within pipeline wrt the <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/deployment/examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">wind_turbines example</a>
 <img alt="" src="examples/wind_turbines/time_compare.png" /></p>
-<p>The following figure shows the advantage of multiprocessing across pipeline wrt the <a href="examples/sklearn/sklearn_parallel_across_pipeline.py">sklearn example</a>
+<p>The following figure shows the advantage of multiprocessing across pipeline wrt the <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/deployment/examples/sklearn/sklearn_parallel_across_pipeline.py">sklearn example</a>
 <img alt="" src="examples/sklearn/time_compare.png" /></p>
 <p><br/><br/></p>
 <h2 id="debugging"><strong>Debugging</strong></h2>
@@ -1293,7 +1293,7 @@ See <a href="#component-function-requirements">Component Function Requirements</
 </li>
 <li>
 <p><code>Helper Function</code>: These functions are meant to used within Component Functions (<strong>NOT</strong> Components). They should just be regular python functions, returning whatever variables applicable.
-Example: <a href="func_library.py#L181">model_predict_func</a>  # TODO - Update</p>
+Example: <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/deployment/func_library.py#L185">model_predict_func</a></p>
 </li>
 </ul>
 <p><br/><br/></p>
@@ -1318,7 +1318,7 @@ The return statement would look like <code>return locals()</code></p>
 <p>When providing input dictionaries for <code>Component.to_record</code> (as an example), it might get tedious to do something like: <code>Component.to_record = dict(batch_imgs='batch_imgs', pad='pad', tile='tile', res='res')</code>. Instead, you could use <code>deploy.repeator</code> to avoid the repetition:</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">deploy</span> <span class="kn">import</span> <span class="n">repeator</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">appsci_utils.deployment.deploy</span> <span class="kn">import</span> <span class="n">repeator</span>
 
 <span class="n">Component</span><span class="o">.</span><span class="n">to_record</span> <span class="o">=</span> <span class="n">repeator</span><span class="p">(</span><span class="s1">&#39;batch_imgs&#39;</span><span class="p">,</span> <span class="s1">&#39;pad&#39;</span><span class="p">,</span> <span class="s1">&#39;tile&#39;</span><span class="p">,</span> <span class="s1">&#39;res&#39;</span><span class="p">)</span>
 
@@ -1330,22 +1330,34 @@ The return statement would look like <code>return locals()</code></p>
 <p><br/><br/></p>
 <h2 id="exception-handling"><strong>Exception Handling</strong></h2>
 <p>To make debugging easier, the framework handles some exceptions efficiently for you to quickly understand what went wrong.</p>
-<p>Most of the errors are caught before a pipeline is even run, but there are some runtime-errors that are still caught and reported neatly. They are:</p>
+<p>Erros are caught at different stages of the pipeline execution, but here is an overview of the type of exceptions the framework explicitly reports.</p>
 <ul>
+<li>
+<p><code>ComponentInitializationError</code>: When an error occurs at component initialization.</p>
+</li>
+<li>
+<p><code>ComponentRuntimeError</code>: When an error occurs while the component is running.</p>
+</li>
+<li>
+<p><code>ComponentTimeoutError</code>: (only applicable when <a href="#multiprocessing-within-pipeline">multiprocessing within pipeline</a>) When a component timesout at <code>get</code> or <code>set</code> based on the timeout provided. See that section for more details.</p>
+</li>
 <li>
 <p><code>KeyExistingError</code>: You would see this exception in case you try to overwrite an existing pipeline key by trying to add a Pipeline Variable (via <code>.add_pipeline_variable</code>) that has a name clash.</p>
 </li>
 <li>
-<p><code>KeyInvalidError</code>: You would see this exception if the value you provide while setting <code>runtime_args</code> is invalid (for reasons such as it is a literal static value, or it's name is actually reserved)</p>
+<p><code>PipelineCompilationError</code>: When an error occurs at pipeline compilation.</p>
 </li>
 <li>
-<p><code>KeyNonExistentError</code>: You would see this exception in case you try to access component variables as part of <code>to_record</code> or <code>to_print</code> or <code>to_save</code> but the component function cannot find any variable by that name.</p>
+<p><code>PipelineInitializationError</code>: When an error occurs at pipeline initialization.</p>
+</li>
+<li>
+<p><code>PipelineRuntimeError</code>: When an error occurs while the pipeline is running, but usually before any of its components have started running (in which case it turns to a <code>ComponentRuntimeError</code>).</p>
 </li>
 </ul>
 <p>Any errors in the function definition, or otherwise are handled by python natively.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>When running in multiprocessing mode, if any error is caught by a child process, the parent throws it to stdout, shuts down every other child process, and the program terminates.</p>
+<p>When running in multiprocessing mode, if any error is caught by a child process, the parent prints it to stdout, shuts down every other child process, raises a <code>SystemExit</code>, and the program terminates.</p>
 </div>
 <p><br/><br/></p>
 <h2 id="quick-pointers"><strong>Quick Pointers</strong></h2>
@@ -1374,20 +1386,20 @@ The return statement would look like <code>return locals()</code></p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-        
-          <a href="INSTALLATION/" title="Installation" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="INSTALLATION/" title="Installation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
-                  Next
+                  Previous
                 </span>
                 Installation
               </span>
             </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
           </a>
+        
         
       </nav>
     </div>

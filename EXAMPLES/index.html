@@ -187,42 +187,6 @@
           
           
 
-
-  <li class="md-nav__item">
-    <a href=".." title="General" class="md-nav__link">
-      General
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../INSTALLATION/" title="Installation" class="md-nav__link">
-      Installation
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
-      Functions and Methods
-    </a>
-  </li>
-
-        
-          
-          
-          
-
   
 
 
@@ -337,6 +301,42 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
+      Functions and Methods
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../INSTALLATION/" title="Installation" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href=".." title="General" class="md-nav__link">
+      General
+    </a>
   </li>
 
         
@@ -467,12 +467,12 @@
                 <h2 id="basic-examples"><strong>Basic Examples</strong></h2>
 <p>(For a full set of examples look under <a href="examples/">examples</a>)</p>
 <h3 id="basic-pipeline"><strong>Basic Pipeline</strong></h3>
-<p><a href="../examples/basic_example.py">Code</a></p>
+<p><a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/deployment/examples/basic_example.py">Code</a></p>
 <p>Let us say you want to build a two-component pipeline.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">deploy</span> <span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">appsci_utils.deployment.deploy</span> <span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">Pipeline</span><span class="p">,</span> <span class="n">repeator</span>
 
 <span class="n">inp_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">))</span>
 
@@ -491,7 +491,7 @@
 <span class="c1"># From the definition of demo1, we need to pass inp_image and threshold_value. The former is a</span>
 <span class="c1"># runtime argument that comes from the output of demo1, and threshold_value is a static argument.</span>
 <span class="n">comp2</span><span class="o">.</span><span class="n">static_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">threshold_value</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">comp2</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inp_image</span><span class="o">=</span><span class="n">comp1</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">inp_image</span><span class="p">)</span>
+<span class="n">comp2</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inp_image</span><span class="o">=</span><span class="n">comp1</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">inp_image</span><span class="p">)</span>
 <span class="c1"># i.e Get the value, at that time in the future when this function is executed,</span>
 <span class="c1"># stored by name `inp_image` in comp1 and pass it to comp2&#39;s function (i.e demo2)</span>
 <span class="c1"># as the kwarg value for `inp_image`</span>
@@ -519,7 +519,7 @@
 
 </div>
 <h3 id="printing-variables"><strong>Printing Variables</strong></h3>
-<p><a href="../examples/basic_example_print.py">Code</a></p>
+<p><a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/deployment/examples/basic_example_print.py">Code</a></p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="highlight"><pre><span></span><span class="n">comp2</span><span class="o">.</span><span class="n">to_print</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dummy_variable&#39;</span><span class="p">]</span>
@@ -544,7 +544,7 @@
 
 </div>
 <h3 id="saving-variables"><strong>Saving Variables</strong></h3>
-<p><a href="../examples/basic_example_save.py">Code</a></p>
+<p><a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/deployment/examples/basic_example_save.py">Code</a></p>
 <p>Just like printing variables, you can also save them. To achieve this, use the <code>to_save</code> attribute of a Component. It accepts a dictionary, where a <code>(key, value)</code> can be of two types:
 - <code>(key, value) = (str, str)</code>: In this case, provide the <code>key</code> with the variable you are trying to save, and provide the full save path as the <code>value</code>. The method to save is inferred from the extension of the save path. Currently, saving <code>numpy</code> files (<code>.npy</code>), and images (<code>.png</code> or <code>.jpg</code>) is supported.
 - <code>(key, value) = (str, function)</code>: In this case, <code>key</code> remains the same as above, but in <code>value</code> provide a python function handle that would take in the positional argument (0th position) of the value of <code>key</code> at runtime and would save it according to the custom method.</p>
@@ -552,7 +552,7 @@
 <p class="admonition-title">Example</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dummy_save</span><span class="p">(</span><span class="n">var</span><span class="p">):</span>
   <span class="k">print</span><span class="p">(</span><span class="s1">&#39;I am a dummy save method; will not save anything. But I confirm to have received the variable {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
-<span class="n">comp2</span><span class="o">.</span><span class="n">to_save</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inp_image</span><span class="o">=</span><span class="s1">&#39;_aux/test_inp_image.npy&#39;</span><span class="p">,</span> <span class="n">dummy_variable</span><span class="o">=</span><span class="n">dummy_save</span><span class="p">)</span>
+<span class="n">comp2</span><span class="o">.</span><span class="n">to_save</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inp_image</span><span class="o">=</span><span class="s1">&#39;test_inp_image.npy&#39;</span><span class="p">,</span> <span class="n">dummy_variable</span><span class="o">=</span><span class="n">dummy_save</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -568,14 +568,14 @@
 <span class="n">I</span> <span class="n">am</span> <span class="n">a</span> <span class="n">dummy</span> <span class="n">save</span> <span class="nb">method</span><span class="p">;</span> <span class="n">will</span> <span class="ow">not</span> <span class="n">save</span> <span class="n">anything</span><span class="o">.</span> <span class="no">But</span> <span class="n">I</span> <span class="n">confirm</span> <span class="n">to</span> <span class="n">have</span> <span class="n">received</span> <span class="n">the</span> <span class="n">variable</span> <span class="mi">5</span>
 <span class="o">[</span><span class="mi">2019</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mi">11</span> <span class="mi">15</span><span class="p">:</span><span class="mi">58</span><span class="p">:</span><span class="mo">04</span><span class="o">.</span><span class="mi">109076</span><span class="o">][</span><span class="no">PID</span> <span class="mi">22064</span><span class="o">][</span><span class="no">Comp</span> <span class="n">demo2</span><span class="o">][</span><span class="n">n_time</span><span class="o">=</span><span class="mi">0</span><span class="o">]</span> <span class="no">Compute</span> <span class="no">Ended</span><span class="o">.</span> <span class="no">Took</span> <span class="mi">0</span><span class="p">:</span><span class="mo">00</span><span class="p">:</span><span class="mo">00</span><span class="o">.</span><span class="mo">003014</span>
 
-<span class="c1"># Also, _aux/test_inp_image.npy gets saved</span>
+<span class="c1"># Also, test_inp_image.npy gets saved</span>
 
 <span class="c1"># Note that you do not need to add a variable to `to_record` to save it.</span>
 </pre></div>
 
 </div>
 <h3 id="adding-static-pipeline-variables"><strong>Adding Static Pipeline Variables</strong></h3>
-<p><a href="../examples/basic_example_static_pipeline_variable.py">Code</a></p>
+<p><a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/deployment/examples/basic_example_static_pipeline_variable.py">Code</a></p>
 <p>In our basic example, let us say we use <code>demo3</code> from the function library instead of <code>demo2</code> (and as such, <code>comp3</code> instead of <code>comp2</code>), and we want to use the same value for the argument <code>add_value</code> in both <code>demo1</code> and <code>demo3</code>. One way to do this is to add it as <code>static_args</code> in both the components. The other way is to add it as a static pipeline variable just once, and let both the components access it.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
@@ -587,11 +587,11 @@
 
 <span class="n">comp1</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;demo1&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="s1">&#39;demo1&#39;</span><span class="p">)</span>
 <span class="n">comp1</span><span class="o">.</span><span class="n">static_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inp_image</span><span class="o">=</span><span class="n">inp_image</span><span class="p">,</span> <span class="n">mul_value</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">comp1</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">add_value</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">add_value</span><span class="p">)</span>
+<span class="n">comp1</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">add_value</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">add_value</span><span class="p">)</span>
 <span class="n">comp1</span><span class="o">.</span><span class="n">to_record</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inp_image</span><span class="o">=</span><span class="s1">&#39;inp_image&#39;</span><span class="p">)</span>
 
 <span class="n">comp3</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;demo3&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="s1">&#39;demo3&#39;</span><span class="p">)</span>
-<span class="n">comp3</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inp_image</span><span class="o">=</span><span class="n">comp1</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">inp_image</span><span class="p">,</span> <span class="n">add_value</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">add_value</span><span class="p">)</span>
+<span class="n">comp3</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inp_image</span><span class="o">=</span><span class="n">comp1</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">inp_image</span><span class="p">,</span> <span class="n">add_value</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">add_value</span><span class="p">)</span>
 
 <span class="c1"># Note that `compile_pipeline` should be the last operation performed on the pipeline before</span>
 <span class="c1"># calling the `.run` on it</span>
@@ -647,7 +647,7 @@ The inner most pipeline then looks like (get image) + (run model prediction).</p
 
 <span class="n">comp1</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;model_predict&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">model_predict</span><span class="p">)</span>
 <span class="n">comp1</span><span class="o">.</span><span class="n">static_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="s1">&#39;...&#39;</span><span class="p">)</span>
-<span class="n">comp1</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inp_image</span><span class="o">=</span><span class="n">comp0</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">out_image</span><span class="p">)</span>
+<span class="n">comp1</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inp_image</span><span class="o">=</span><span class="n">comp0</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">out_image</span><span class="p">)</span>
 
 <span class="n">inner_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;inner_pipeline&#39;</span><span class="p">)</span>
 <span class="n">inner_pipeline</span><span class="o">.</span><span class="n">compile_pipeline</span><span class="p">([</span><span class="n">comp0</span><span class="p">,</span> <span class="n">comp1</span><span class="p">])</span>
@@ -674,7 +674,7 @@ The inner most pipeline then looks like (get image) + (run model prediction).</p
 
 <span class="n">comp_main1</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;loop_keys&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">loop_keys</span><span class="p">)</span>
 <span class="n">comp_main1</span><span class="o">.</span><span class="n">static_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pipeline</span><span class="o">=</span><span class="n">inner_pipeline</span><span class="p">)</span>
-<span class="n">comp_main1</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">comp_main0</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">dlkeys</span><span class="p">)</span>
+<span class="n">comp_main1</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">comp_main0</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">dlkeys</span><span class="p">)</span>
 
 <span class="n">outer_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outer_pipeline&#39;</span><span class="p">)</span>
 <span class="n">outer_pipeline</span><span class="o">.</span><span class="n">compile_pipeline</span><span class="p">([</span><span class="n">comp_main0</span><span class="p">,</span> <span class="n">comp_main1</span><span class="p">])</span>
@@ -712,8 +712,8 @@ The inner most pipeline then looks like (get image) + (run model prediction).</p
 <span class="n">comp0</span> <span class="o">=</span> <span class="o">...</span>  <span class="c1"># Same as in the above example</span>
 
 <span class="n">comp1</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;model_predict&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">model_predict</span><span class="p">)</span>
-<span class="n">comp1</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inp_image</span><span class="o">=</span><span class="n">comp0</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">out_image</span><span class="p">,</span>
-                          <span class="n">model</span><span class="o">=</span><span class="n">comp_main1</span><span class="o">.</span><span class="n">FutureVariable</span><span class="o">.</span><span class="n">shared_model</span><span class="p">)</span>
+<span class="n">comp1</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inp_image</span><span class="o">=</span><span class="n">comp0</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">out_image</span><span class="p">,</span>
+                          <span class="n">model</span><span class="o">=</span><span class="n">comp_main1</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">shared_model</span><span class="p">)</span>
 
 <span class="n">inner_pipeline</span><span class="o">.</span><span class="n">compile_pipeline</span><span class="p">([</span><span class="n">comp0</span><span class="p">,</span> <span class="n">comp1</span><span class="p">])</span>
 </pre></div>
@@ -724,11 +724,11 @@ The inner most pipeline then looks like (get image) + (run model prediction).</p
 <p>Some caution needs to be taken when defining pipelines that work with DLTasks.
 The main tricky point is that Tasks can only take a serializable function as its input.
 Therefore, any pipeline that you want to run within Tasks should be wrapped in a python function.</p>
-<p>Example: <a href="../examples/wind_turbines/wind_turbines_noparallel.py">Wind Turbines Example</a></p>
+<p>Example: <a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/deployment/examples/wind_turbines/wind_turbines_noparallel.py">Wind Turbines Example</a></p>
 <p><br/><br/></p>
 <h2 id="multiprocessing-examples"><strong>Multiprocessing Examples</strong></h2>
-<p>See <a href="../examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">an example for multiprocessing within pipeline</a></p>
-<p>See <a href="../examples/sklearn/sklearn_parallel_across_pipeline.py">an example for multiprocessing across pipeline</a></p>
+<p>See <a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/deployment/examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">an example for multiprocessing within pipeline</a></p>
+<p>See <a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/deployment/examples/sklearn/sklearn_parallel_across_pipeline.py">an example for multiprocessing across pipeline</a></p>
                 
                   
                 
@@ -749,20 +749,20 @@ Therefore, any pipeline that you want to run within Tasks should be wrapped in a
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
+        
+          <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
-                  Previous
+                  Next
                 </span>
                 Functions and Methods
               </span>
             </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
           </a>
-        
         
       </nav>
     </div>
