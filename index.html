@@ -201,6 +201,18 @@
 
 
   <li class="md-nav__item">
+    <a href="INSTALLATION/" title="Installation" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
       Functions and Methods
     </a>
@@ -502,18 +514,6 @@
   
 </nav>
     
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="INSTALLATION/" title="Installation" class="md-nav__link">
-      Installation
-    </a>
   </li>
 
         
@@ -1204,9 +1204,12 @@ ComponentTimeoutError is raised. If left to None, it will block infinitely (unti
 <p>If any components are set with <code>run_async=False</code>, then internally, the pipeline first launches all the async tasks, and then sequentially runs these non-async components in the main process. If running in a loop, then <em>all</em> async tasks (i.e from all the loop iterations) are asynchronously spun up, and then each the non-async components are run one after another. This does not mean that the non-async components are blocked until the async ones finish processing; they are only blocked until the async ones are spun up - which takes negligible amount of time.</p>
 </div>
 <div class="admonition warning">
-<p class="admonition-title">Multiprocessing, sharing variables across pipelines, and looping</p>
-<p>If you use this mode of multiprocessing for a pipeline, then you can run it in a loop as long as the pipeline it shares variables with (either via <code>runtime_args</code> or <code>to_record</code>) are not set to parallelize.
-If this is not followed, it might result in an infinite blocking after the first iteration of the source component, or an unexpected termination. See the <strong>Multiprocessing, sharing variables across pipelines, and looping</strong> example below.</p>
+<p class="admonition-title">Multiprocessing when sharing variables across pipelines</p>
+<p>If a component of a pipeline is giving one or more of its output variables to a component in another pipeline, then you cannot set the first pipeline to parallelize in two cases:
+- If the first pipeline is running in a loop.
+- (if not, and) if the second pipeline is both, running in a loop and set to parallelize.
+The user is responsible for making sure they avoid these cases, as the framework is not designed to recognize such setup.
+If this is not followed, it might result in an infinite blocking after the first iteration of the source component, or an unexpected termination. See the <strong>Multiprocessing when sharing variables across pipelines</strong> example below.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Serializable restriction</p>
@@ -1217,9 +1220,8 @@ If this is not followed, it might result in an infinite blocking after the first
 <p>There is no harm in calling <code>pipeline.wait()</code> even when <code>parallelize=False</code>. As such, when writing a generic component function that loops over a pipeline, it is a good idea to include <code>pipeline.wait()</code>, to allow parallelizing without having to change the function definition.</p>
 </div>
 <div class="admonition example">
-<p class="admonition-title">Multiprocessing, sharing variables across pipelines, and looping</p>
-<div class="highlight"><pre><span></span><span class="c1"># This example shows what is (not) allowed when multiprocessing, sharing variables across</span>
-<span class="c1"># pipelines, and looping at the same time.</span>
+<p class="admonition-title">Multiprocessing when sharing variables across pipelines</p>
+<div class="highlight"><pre><span></span><span class="c1"># This example shows what is (not) allowed when multiprocessing and sharing variables across pipelines.</span>
 <span class="k">def</span> <span class="nf">main_func1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
 
@@ -1242,8 +1244,8 @@ If this is not followed, it might result in an infinite blocking after the first
 <span class="n">main_p</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
 <span class="n">child_p</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="n">child_p</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
-<span class="c1"># In the above example, I can parallelize both `main_p` and `child_p` because</span>
-<span class="c1"># each of them is not running in a loop.</span>
+<span class="c1"># In the above example, I can parallelize `main_p` because `child_p` is not running</span>
+<span class="c1"># in a loop even though it is set to parallelize.</span>
 
 <span class="c1"># However, the following is invalid:</span>
 <span class="n">main_p</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
@@ -1251,18 +1253,21 @@ If this is not followed, it might result in an infinite blocking after the first
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
   <span class="n">child_p</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="n">child_p</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
-<span class="c1"># Here, I cannot set `child_p` to parallelize because it is being run in a loop.</span>
-<span class="c1"># I could still set `main_p` to parallelize because it is not running in a loop.</span>
+<span class="c1"># Here, I cannot set `main_p` to parallelize because `child_p` is running in a loop while</span>
+<span class="c1"># being set to parallelize.</span>
+<span class="c1"># My options here are:</span>
+<span class="c1"># - Set `child_p` parallelize=False, and then I can parallelize `main_p`.</span>
+<span class="c1"># - Set `main_p` parallelize=False, and then I can parallelize `child_p`.</span>
 
-<span class="c1"># Alternatively, I could run `child_p` in a loop and also parallelize it as long as</span>
-<span class="c1"># I do not set `main_p` to parallelize.</span>
-<span class="n">main_p</span><span class="o">.</span><span class="n">compile_pipeline</span><span class="p">([</span><span class="n">main_comp1</span><span class="p">],</span> <span class="n">parallelize</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">child_p</span><span class="o">.</span><span class="n">compile_pipeline</span><span class="p">([</span><span class="n">child_comp1</span><span class="p">],</span> <span class="n">parallelize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">main_p</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-  <span class="n">child_p</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="c1"># Another case that is invalid is to parallelize `main_p` and run it in a loop, irrespective of</span>
+<span class="c1"># how `child_p` is configured.</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+  <span class="n">main_p</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">main_p</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="n">child_p</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="n">child_p</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
-<span class="c1"># This is allowed.</span>
+<span class="c1"># This is invalid irrespective of whether `child_p` is set to parallelize and whether `child_p`</span>
+<span class="c1"># is running in a loop.</span>
 </pre></div>
 
 </div>
@@ -1451,20 +1456,6 @@ The return statement would look like <code>return locals()</code></p>
             </div>
           </a>
         
-        
-          <a href="INSTALLATION/" title="Installation" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Installation
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
         
       </nav>
     </div>
