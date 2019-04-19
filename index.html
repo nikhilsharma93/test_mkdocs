@@ -189,8 +189,8 @@
 
 
   <li class="md-nav__item">
-    <a href="FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
-      Functions and Methods
+    <a href="EXAMPLES/" title="Examples" class="md-nav__link">
+      Examples
     </a>
   </li>
 
@@ -201,8 +201,8 @@
 
 
   <li class="md-nav__item">
-    <a href="INSTALLATION/" title="Installation" class="md-nav__link">
-      Installation
+    <a href="FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
+      Functions and Methods
     </a>
   </li>
 
@@ -511,8 +511,8 @@
 
 
   <li class="md-nav__item">
-    <a href="EXAMPLES/" title="Examples" class="md-nav__link">
-      Examples
+    <a href="INSTALLATION/" title="Installation" class="md-nav__link">
+      Installation
     </a>
   </li>
 
@@ -1204,8 +1204,9 @@ ComponentTimeoutError is raised. If left to None, it will block infinitely (unti
 <p>If any components are set with <code>run_async=False</code>, then internally, the pipeline first launches all the async tasks, and then sequentially runs these non-async components in the main process. If running in a loop, then <em>all</em> async tasks (i.e from all the loop iterations) are asynchronously spun up, and then each the non-async components are run one after another. This does not mean that the non-async components are blocked until the async ones finish processing; they are only blocked until the async ones are spun up - which takes negligible amount of time.</p>
 </div>
 <div class="admonition warning">
-<p class="admonition-title">Multiprocessing and for loops</p>
-<p>If you are using this mode of multiprocessing, and if you have components from different pipelines share variables, then you cannot run <em>both</em> the pipelines in a loop at the same time. If you do, this will result in an infinite blocking after the first iteration of the source component.</p>
+<p class="admonition-title">Multiprocessing, sharing variables across pipelines, and looping</p>
+<p>If you use this mode of multiprocessing for a pipeline, then you can run it in a loop as long as the pipeline it shares variables with (either via <code>runtime_args</code> or <code>to_record</code>) are not set to parallelize.
+If this is not followed, it might result in an infinite blocking after the first iteration of the source component, or an unexpected termination. See the <strong>Multiprocessing, sharing variables across pipelines, and looping</strong> example below.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Serializable restriction</p>
@@ -1214,6 +1215,56 @@ ComponentTimeoutError is raised. If left to None, it will block infinitely (unti
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>There is no harm in calling <code>pipeline.wait()</code> even when <code>parallelize=False</code>. As such, when writing a generic component function that loops over a pipeline, it is a good idea to include <code>pipeline.wait()</code>, to allow parallelizing without having to change the function definition.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Multiprocessing, sharing variables across pipelines, and looping</p>
+<div class="highlight"><pre><span></span><span class="c1"># This example shows what is (not) allowed when multiprocessing, sharing variables across</span>
+<span class="c1"># pipelines, and looping at the same time.</span>
+<span class="k">def</span> <span class="nf">main_func1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">child_func1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">+=</span> <span class="mi">10</span>
+
+<span class="n">main_comp1</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;mc1&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">main_func1</span><span class="p">)</span>
+<span class="n">child_comp1</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;cc1&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">child_func1</span><span class="p">)</span>
+<span class="n">main_comp1</span><span class="o">.</span><span class="n">to_record</span> <span class="o">=</span> <span class="n">repeator</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">main_comp1</span><span class="o">.</span><span class="n">static_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">child_comp1</span><span class="o">.</span><span class="n">runtime_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">main_comp1</span><span class="o">.</span><span class="n">future_variable</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">main_p</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;mp1&#39;</span><span class="p">)</span>
+<span class="n">main_p</span><span class="o">.</span><span class="n">compile_pipeline</span><span class="p">([</span><span class="n">main_comp1</span><span class="p">],</span> <span class="n">parallelize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">child_p</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;cp1&#39;</span><span class="p">)</span>
+<span class="n">child_p</span><span class="o">.</span><span class="n">compile_pipeline</span><span class="p">([</span><span class="n">child_comp1</span><span class="p">],</span> <span class="n">parallelize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">main_p</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">main_p</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="n">child_p</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">child_p</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="c1"># In the above example, I can parallelize both `main_p` and `child_p` because</span>
+<span class="c1"># each of them is not running in a loop.</span>
+
+<span class="c1"># However, the following is invalid:</span>
+<span class="n">main_p</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">main_p</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+  <span class="n">child_p</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">child_p</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="c1"># Here, I cannot set `child_p` to parallelize because it is being run in a loop.</span>
+<span class="c1"># I could still set `main_p` to parallelize because it is not running in a loop.</span>
+
+<span class="c1"># Alternatively, I could run `child_p` in a loop and also parallelize it as long as</span>
+<span class="c1"># I do not set `main_p` to parallelize.</span>
+<span class="n">main_p</span><span class="o">.</span><span class="n">compile_pipeline</span><span class="p">([</span><span class="n">main_comp1</span><span class="p">],</span> <span class="n">parallelize</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">child_p</span><span class="o">.</span><span class="n">compile_pipeline</span><span class="p">([</span><span class="n">child_comp1</span><span class="p">],</span> <span class="n">parallelize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">main_p</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+  <span class="n">child_p</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">child_p</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="c1"># This is allowed.</span>
+</pre></div>
+
 </div>
 <p><br></p>
 <h4 id="multiprocessing-across-pipeline"><strong>Multiprocessing Across Pipeline</strong></h4>
@@ -1386,7 +1437,7 @@ The return statement would look like <code>return locals()</code></p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="INSTALLATION/" title="Installation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="FUNC_DOCS/" title="Functions and Methods" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1395,19 +1446,19 @@ The return statement would look like <code>return locals()</code></p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Installation
+                Functions and Methods
               </span>
             </div>
           </a>
         
         
-          <a href="EXAMPLES/" title="Examples" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="INSTALLATION/" title="Installation" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Examples
+                Installation
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
