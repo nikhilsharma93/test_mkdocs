@@ -187,42 +187,6 @@
           
           
 
-
-  <li class="md-nav__item">
-    <a href="EXAMPLES/" title="Examples" class="md-nav__link">
-      Examples
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="INSTALLATION/" title="Installation" class="md-nav__link">
-      Installation
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
-      Functions and Methods
-    </a>
-  </li>
-
-        
-          
-          
-          
-
   
 
 
@@ -514,6 +478,42 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
+      Functions and Methods
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="INSTALLATION/" title="Installation" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="EXAMPLES/" title="Examples" class="md-nav__link">
+      Examples
+    </a>
   </li>
 
         
@@ -1205,10 +1205,12 @@ ComponentTimeoutError is raised. If left to None, it will block infinitely (unti
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Multiprocessing when sharing variables across pipelines</p>
-<p>If a component of a pipeline is giving one or more of its output variables to a component in another pipeline, then you cannot set the first pipeline to parallelize in two cases:
-- If the first pipeline is running in a loop.
-- (if not, and) if the second pipeline is both, running in a loop and set to parallelize.
-The user is responsible for making sure they avoid these cases, as the framework is not designed to recognize such setup.
+<p>If a component of a pipeline is giving one or more of its output variables to a component in another pipeline, then you cannot set the first pipeline to parallelize in two cases:</p>
+<ul>
+<li>If the first pipeline is running in a loop.</li>
+<li>(if not, and) if the second pipeline is both, running in a loop and set to parallelize.</li>
+</ul>
+<p>The user is responsible for making sure they avoid these cases, as the framework is not designed to recognize such setup.
 If this is not followed, it might result in an infinite blocking after the first iteration of the source component, or an unexpected termination. See the <strong>Multiprocessing when sharing variables across pipelines</strong> example below.</p>
 </div>
 <div class="admonition warning">
@@ -1442,20 +1444,20 @@ The return statement would look like <code>return locals()</code></p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="FUNC_DOCS/" title="Functions and Methods" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
+        
+          <a href="FUNC_DOCS/" title="Functions and Methods" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
-                  Previous
+                  Next
                 </span>
                 Functions and Methods
               </span>
             </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
           </a>
-        
         
       </nav>
     </div>
