@@ -1,0 +1,671 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.1.1">
+    
+    
+      
+        <title>For Developers - Deployment</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.3020aac5.css">
+      
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.01ccdecf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#pipeline-design" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="Deployment" class="md-header-nav__button md-logo">
+          
+            <img src="../utils/_aux/deploy_logo.png" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Deployment
+            </span>
+            <span class="md-header-nav__topic">
+              For Developers
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href=".." title="Deployment" class="md-nav__button md-logo">
+      
+        <img src="../utils/_aux/deploy_logo.png" width="48" height="48">
+      
+    </a>
+    Deployment
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1" checked>
+    
+    <label class="md-nav__link" for="nav-1">
+      Documentation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Documentation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Concepts and Overview" class="md-nav__link">
+      Concepts and Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../EXAMPLES/" title="Examples" class="md-nav__link">
+      Examples
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
+      Functions and Methods
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../INSTALLATION/" title="Installation" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        For Developers
+      </label>
+    
+    <a href="./" title="For Developers" class="md-nav__link md-nav__link--active">
+      For Developers
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pipeline-design" title="Pipeline Design" class="md-nav__link">
+    Pipeline Design
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-initialization" title="Pipeline Initialization" class="md-nav__link">
+    Pipeline Initialization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-pipeline-static-variables" title="Adding Pipeline Static Variables" class="md-nav__link">
+    Adding Pipeline Static Variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compiling-a-pipeline" title="Compiling a Pipeline" class="md-nav__link">
+    Compiling a Pipeline
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipelines-run-method" title="Pipeline's run method" class="md-nav__link">
+    Pipeline's run method
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipelines-map-method" title="Pipeline's map method" class="md-nav__link">
+    Pipeline's map method
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipelines-_run-method" title="Pipeline's _run method" class="md-nav__link">
+    Pipeline's _run method
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipelines-summarize-method" title="Pipeline's summarize method" class="md-nav__link">
+    Pipeline's summarize method
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-design" title="Component Design" class="md-nav__link">
+    Component Design
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#component-initialization" title="Component Initialization" class="md-nav__link">
+    Component Initialization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-compilation" title="Component Compilation" class="md-nav__link">
+    Component Compilation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preset-a-component" title="Preset a Component" class="md-nav__link">
+    Preset a Component
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-a-component" title="Running a Component" class="md-nav__link">
+    Running a Component
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-variable-deletion" title="Component Variable Deletion" class="md-nav__link">
+    Component Variable Deletion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-exception-handling" title="Component Exception Handling" class="md-nav__link">
+    Component Exception Handling
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pipeline-design" title="Pipeline Design" class="md-nav__link">
+    Pipeline Design
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-initialization" title="Pipeline Initialization" class="md-nav__link">
+    Pipeline Initialization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-pipeline-static-variables" title="Adding Pipeline Static Variables" class="md-nav__link">
+    Adding Pipeline Static Variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compiling-a-pipeline" title="Compiling a Pipeline" class="md-nav__link">
+    Compiling a Pipeline
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipelines-run-method" title="Pipeline's run method" class="md-nav__link">
+    Pipeline's run method
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipelines-map-method" title="Pipeline's map method" class="md-nav__link">
+    Pipeline's map method
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipelines-_run-method" title="Pipeline's _run method" class="md-nav__link">
+    Pipeline's _run method
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipelines-summarize-method" title="Pipeline's summarize method" class="md-nav__link">
+    Pipeline's summarize method
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-design" title="Component Design" class="md-nav__link">
+    Component Design
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#component-initialization" title="Component Initialization" class="md-nav__link">
+    Component Initialization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-compilation" title="Component Compilation" class="md-nav__link">
+    Component Compilation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preset-a-component" title="Preset a Component" class="md-nav__link">
+    Preset a Component
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-a-component" title="Running a Component" class="md-nav__link">
+    Running a Component
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-variable-deletion" title="Component Variable Deletion" class="md-nav__link">
+    Component Variable Deletion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-exception-handling" title="Component Exception Handling" class="md-nav__link">
+    Component Exception Handling
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>For Developers</h1>
+                
+                <p><strong>The purpose of this document is to explain the framework design, the choices made, and places for improvement.</strong></p>
+<p><br/><br/></p>
+<h2 id="pipeline-design"><strong>Pipeline Design</strong></h2>
+<p>The Pipeline class is reponsible for controlling the runs of the components it is assigned. This includes things like maintaing what components are run serially, what are run in parallel, what components use the main process, what use forked processes, etc. It is also responsible for providing additional features like <a href="#summary">summarizing component runs</a>. Assignment of components happens via the <code>compile_pipeline</code> method. The general lifecycle of a pipeline is as follows.</p>
+<h4 id="pipeline-initialization"><strong>Pipeline Initialization</strong></h4>
+<p>Each pipeline should have a unique name. A class level variable <code>_mapper_pipeline_name_obj</code> helps maintain references from these names to actual objects in memory.</p>
+<p>On initialization, it creates a number of variables, most of which are to track and record components execution status, run order, etc. It also initializes class level <code>multiprocessing.Manager</code> and <code>multiprocessing.SyncManager</code> objects. All the class level variables are meant to be initialized just once per fresh run of a code.</p>
+<h4 id="adding-pipeline-static-variables"><strong>Adding Pipeline Static Variables</strong></h4>
+<p>Each pipeline accepts unto itself a set of static variables that any component can access. Ideally, any component should not access static variables of a pipeline it does not belong to. This, however, is just a <em>good practice</em> case, and the framework as such does not impose restrictions on doing so. Thereby, the scope of variables added via this method is as long as that pipeline instance is in scope.</p>
+<h4 id="compiling-a-pipeline"><strong>Compiling a Pipeline</strong></h4>
+<p>This is intended to be the last step before calling either a <code>map</code> or a <code>run</code> method on the pipeline. It's duty is to assign the pipeline with the specified set of components, their exact run order, and to make sure everything looks good (as far as it is possible to tell) in terms of the variables set. After doing its own checks, it asks each component (it has been assigned with) to do their own compilation (details of which are discussed in the section <a href="#compiling-a-component">Compiling a Component</a>). Additionally, based on if the pipeline is set to parallelize, it initializes some <code>Manager</code> objects like shared dictionaries, lists, etc.</p>
+<h4 id="pipelines-run-method"><strong>Pipeline's <code>run</code> method</strong></h4>
+<p>This method is used to ask the pipeline to run either sequentially, or via <a href="#multiprocessing">multiprocessing within the pipeline</a>. To run a pipeline means to run the components in the specified order (see what it means to <a href="#running-a-component">run a component</a>).</p>
+<p>If it is the first time that the <code>run</code> method is being called on a pipeline instance, then it calls a <code>_preset</code> method, which inturn asks each component to <em>preset</em> (see what it means to <a href="#preset-a-component">preset a component</a>).</p>
+<p>If the pipeline is not set to parallelize, it just launches the <code>_run</code> method one-by-one for all the components it was compiled with (see what <a href="#pipeline's-_run-method">pipeline _run method does</a>).</p>
+<p>When in parallelize mode, the pipeline provides each component with an option to be run in the main process instead of a forked process. The component is responsible for setting this flag. As such, in this parallelize mode, when a <code>run</code> is called on the pipeline, it loops through each component in the specified run order, and calls the <code>_run</code> method if it is to be run in a forked process, or just adds that component to a list of <em>future jobs</em> if it is to be run in the main process. The <code>_run</code> call in this case launches an asynchronous job under the hood, and returns immediately. As such, when the pipeline is done iterating over all the components, it now runs the <em>future jobs</em> (if any) sequentially in the main process, and then waits for any of the async jobs launched via <code>_run</code>. This is done by calling the <code>wait</code> method on the pipeline.</p>
+<h4 id="pipelines-map-method"><strong>Pipeline's <code>map</code> method</strong></h4>
+<p>This is an alternative to the <code>run</code> method, and is meant to be used when <a href="#multiprocessing">multiprocessing across pipelines</a>. It is similar to <code>multiprocessing.Pool.map</code> method in that it takes the pipeline to run, and maps the given arguments across the specified number of cores. Under the hood, it just calls a new <code>multiprocessing.Process</code> on its <code>run</code> method (which inturn calls the <code>_run</code> method in sequential mode; the components within a pipeline as such are run sequentially, while the parallelism happens <em>across</em> the pipeline runs).</p>
+<h4 id="pipelines-_run-method"><strong>Pipeline's <code>_run</code> method</strong></h4>
+<p>This is a private method that is meant to be called from the <code>run</code> method. It just takes in the component to run, and if it has to be run async, then it executes that component in a new <code>multiprocessing.Process</code>, else just executes it in the main process.</p>
+<h4 id="pipelines-summarize-method"><strong>Pipeline's <code>summarize</code> method</strong></h4>
+<p>This is intended to provide a summary of <strong>all</strong> the pipeline runs that have happened till the point this method gets called. It essentially just gets the run-times for each pipeline (and each of their components) and prints it in a formatted way to stdout. Optionally, it uses OpenCV to turn all these into a graph like diagram.</p>
+<p><br/><br/></p>
+<h2 id="component-design"><strong>Component Design</strong></h2>
+<p>The Component class is responsible for a single python function, starting from gathering its input arguments to running it to gathering and storing the required output values. Further, it is also responsible cleaning up its stored output variables ASAP. It is designed to receive execution calls [and report any exceptions] from [to] the pipeline it belongs to.</p>
+<h4 id="component-initialization"><strong>Component Initialization</strong></h4>
+<p>Each component should have a unique name per pipeline. Components across different pipelines can have the same name. On initialization, every component should necessarily provide a name for it, and the python function to attach to it. Other arguments are optional. Most of them are only used when (multiprocessing within pipeline)(#multiprocessing). The <code>run_async</code> flag controls whether or not the component should be run in the main process.</p>
+<h4 id="component-compilation"><strong>Component Compilation</strong></h4>
+<p>This is called from the pipeline the component belongs to, and is responsible for initializing (if required) and/or updating existing variables.
+Right now, it does not anything when not parallelizing. Else, when parallelizing, it initializes shared objects, and converts any python objects to shared objects if they are meant to be accessed by other processes. See QueueDict (#queuedict)</p>
+<h4 id="preset-a-component"><strong>Preset a Component</strong></h4>
+<p>This does some checks on possible issues such as floating recorded outputs, missing runtime variables, etc. This only happens once per component.</p>
+<h4 id="running-a-component"><strong>Running a Component</strong></h4>
+<p>This has several stages:</p>
+<ul>
+<li>
+<p>Getting the arguments to run: This includes getting the static args, and fetching values for variables provided via runtime_args. When running in no-parallel (or parallelizing across pipelines) mode, each component just gets the variable from a <code>name-&gt;variable</code> dictionary. Whereas when parallelizing within pipelines, each component maintains a notion of an <em>index</em> (or the <em>run count</em>) which notifies which iteration of the variable it is referring to. This is helpful when running the pipeline in a loop: A source component that executes really fast can do (let's say) 4 iterations in the time the receiver component does one iteration. In that case, whenever the receiver tries to get a variable from the source, it should tell it which iteration it refers to.</p>
+</li>
+<li>
+<p>Running the python function attached to it</p>
+</li>
+<li>
+<p>Storing all the required variables</p>
+</li>
+<li>
+<p>Printing and Saving variables if asked to (this is just a handy functionality that the framework provides with no overhead)</p>
+</li>
+<li>
+<p>Cleaning up: For each runtime_arg that a component uses, it notifies the source component that it has finished using this variable. The source is then responsible for deciding whether or not it should delete the variable from memory. See <a href="#component-variable-deletion">Component Variable Deletion</a></p>
+</li>
+</ul>
+<h4 id="component-variable-deletion"><strong>Component Variable Deletion</strong></h4>
+<p>Each component is responsible for deciding whether or not to delete the variables they would have recorded after running their function. This check only happens when a component receives a delete call for a particular variable via a component that just finished using it (see <a href="#running-a-component">Running a Component</a>). Essentially, the component checks for two things:</p>
+<ul>
+<li>Is there any consumer component that is not part of the same pipeline? If there is at least one, then the pipeline does not delete the variable, since it does not know if the receiver component is being run in a loop (in which case it might need the variable value for future iterations, which the source does not know of how many there will be).</li>
+<li>If there are none above, then it checks if all the receiver components have finished using that variable for that iteration. If yes, it goes ahead and clears that variable space.</li>
+</ul>
+<h4 id="component-exception-handling"><strong>Component Exception Handling</strong></h4>
+<p>When running in no-parallel mode, everything is run in the main process, and any exception caught by the component is raised by its pipeline, and the program terminates as usual.
+However, when multiprocessing, the errors from children (which is where the component is actually run) need to be communicated to the parent. Due to the functionality of the pipeline, it cannot be hung on monitoring async components progress/exceptions: it has to execute the components that were set to run in the main process (via <code>run_async=False</code>). As such, the current design is as follows:
+Whenever a component catches an exception, it reports it to its pipeline. The pipeline puts the execption message and traceback in a shared queue and signals a preset <code>signal handler</code> via <code>os.kill</code>. The signal handler prints the message along with the traceback, and kills the main process. Since all the child processes are started as daemons, they all get killed, and the program terminates. It is to note that due to this, the parent actually always raises a <code>SystemExit</code> whenever there is an exception in a child process. If there is a better way to handle things here, please let us know!</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../INSTALLATION/" title="Installation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Installation
+              </span>
+            </div>
+          </a>
+        
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.dc02f8ce.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+  </body>
+</html>
