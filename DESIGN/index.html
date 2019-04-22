@@ -189,32 +189,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
-      Functions and Methods
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href=".." title="Concepts and Overview" class="md-nav__link">
-      Concepts and Overview
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../EXAMPLES/" title="Examples" class="md-nav__link">
       Examples
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../INSTALLATION/" title="Installation" class="md-nav__link">
+      Installation
     </a>
   </li>
 
@@ -388,8 +376,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../INSTALLATION/" title="Installation" class="md-nav__link">
-      Installation
+    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
+      Functions and Methods
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Concepts and Overview" class="md-nav__link">
+      Concepts and Overview
     </a>
   </li>
 
@@ -619,7 +619,7 @@ Right now, it does not anything when not parallelizing. Else, when parallelizing
 </ul>
 <h4 id="component-exception-handling"><strong>Component Exception Handling</strong></h4>
 <p>When running in no-parallel mode, everything is run in the main process, and any exception caught by the component is raised by its pipeline, and the program terminates as usual.
-However, when multiprocessing, the errors from children (which is where the component is actually run) need to be communicated to the parent. Due to the functionality of the pipeline, it cannot be hung on monitoring async components progress/exceptions: it has to execute the components that were set to run in the main process (via <code>run_async=False</code>). As such, the current design is as follows:
+However, when multiprocessing, the errors from children (which is where the component is actually run) need to be communicated to the parent. Due to the functionality of the pipeline, it (the pipeline) cannot be hung on monitoring async components progress/exceptions: it has to execute the components that were set to run in the main process (via <code>run_async=False</code>). As such, the current design is as follows:
 Whenever a component catches an exception, it reports it to its pipeline. The pipeline puts the execption message and traceback in a shared queue and signals a preset <code>signal handler</code> via <code>os.kill</code>. The signal handler prints the message along with the traceback, and kills the main process. Since all the child processes are started as daemons, they all get killed, and the program terminates. It is to note that due to this, the parent actually always raises a <code>SystemExit</code> whenever there is an exception in a child process. If there is a better way to handle things here, please let us know!</p>
 <p><br/><br/></p>
 <h2 id="queuedict"><strong>QueueDict</strong></h2>
@@ -645,7 +645,7 @@ Whenever a component catches an exception, it reports it to its pipeline. The pi
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../EXAMPLES/" title="Examples" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../INSTALLATION/" title="Installation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -654,19 +654,19 @@ Whenever a component catches an exception, it reports it to its pipeline. The pi
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Examples
+                Installation
               </span>
             </div>
           </a>
         
         
-          <a href="../INSTALLATION/" title="Installation" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Installation
+                Functions and Methods
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
