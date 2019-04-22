@@ -187,6 +187,54 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
+      Functions and Methods
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../INSTALLATION/" title="Installation" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../EXAMPLES/" title="Examples" class="md-nav__link">
+      Examples
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Concepts and Overview" class="md-nav__link">
+      Concepts and Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -343,54 +391,6 @@
   
 </nav>
     
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../EXAMPLES/" title="Examples" class="md-nav__link">
-      Examples
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../INSTALLATION/" title="Installation" class="md-nav__link">
-      Installation
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href=".." title="Concepts and Overview" class="md-nav__link">
-      Concepts and Overview
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
-      Functions and Methods
-    </a>
   </li>
 
         
@@ -563,7 +563,7 @@
                 <p><strong>The purpose of this document is to explain the framework design, the choices made, and places for improvement.</strong></p>
 <p><br/><br/></p>
 <h2 id="pipeline-design"><strong>Pipeline Design</strong></h2>
-<p>The Pipeline class is reponsible for controlling the runs of the components it is assigned. This includes things like maintaing what components are run serially, what are run in parallel, what components use the main process, what use forked processes, etc. It is also responsible for providing additional features like <a href="#/test_mkdocs/#getting-a-summary-of-pipeline-runs">summarizing component runs</a>. Assignment of components happens via the <code>compile_pipeline</code> method. The general lifecycle of a pipeline is as follows.</p>
+<p>The Pipeline class is reponsible for controlling the runs of the components it is assigned. This includes things like maintaing what components are run serially, what are run in parallel, what components use the main process, what use forked processes, etc. It is also responsible for providing additional features like <a href="#/test_mkdocs/getting-a-summary-of-pipeline-runs">summarizing component runs</a>. Assignment of components happens via the <code>compile_pipeline</code> method. The general lifecycle of a pipeline is as follows.</p>
 <h4 id="pipeline-initialization"><strong>Pipeline Initialization</strong></h4>
 <p>Each pipeline should have a unique name. A class level variable <code>_mapper_pipeline_name_obj</code> helps maintain references from these names to actual objects in memory.</p>
 <p>On initialization, it creates a number of variables, most of which are to track and record components execution status, run order, etc. It also initializes class level <code>multiprocessing.Manager</code> and <code>multiprocessing.SyncManager</code> objects. All the class level variables are meant to be initialized just once per fresh run of a code.</p>
@@ -645,20 +645,20 @@ Whenever a component catches an exception, it reports it to its pipeline. The pi
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-        
-          <a href="../EXAMPLES/" title="Examples" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href=".." title="Concepts and Overview" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
-                  Next
+                  Previous
                 </span>
-                Examples
+                Concepts and Overview
               </span>
             </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
           </a>
+        
         
       </nav>
     </div>
