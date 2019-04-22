@@ -31,7 +31,7 @@
       
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
-      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <link rel="shortcut icon" href="assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.1.1">
     
     
@@ -40,12 +40,12 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.3020aac5.css">
+      <link rel="stylesheet" href="assets/stylesheets/application.3020aac5.css">
       
       
     
     
-      <script src="../assets/javascripts/modernizr.01ccdecf.js"></script>
+      <script src="assets/javascripts/modernizr.01ccdecf.js"></script>
     
     
       
@@ -54,7 +54,7 @@
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
-    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    <link rel="stylesheet" href="assets/fonts/material-icons.css">
     
     
     
@@ -84,9 +84,9 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href=".." title="Deployment" class="md-header-nav__button md-logo">
+        <a href="." title="Deployment" class="md-header-nav__button md-logo">
           
-            <img src="../utils/_aux/deploy_logo.png" width="24" height="24">
+            <img src="utils/_aux/deploy_logo.png" width="24" height="24">
           
         </a>
       </div>
@@ -152,9 +152,9 @@
                   <div class="md-sidebar__inner">
                     <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href=".." title="Deployment" class="md-nav__button md-logo">
+    <a href="." title="Deployment" class="md-nav__button md-logo">
       
-        <img src="../utils/_aux/deploy_logo.png" width="48" height="48">
+        <img src="utils/_aux/deploy_logo.png" width="48" height="48">
       
     </a>
     Deployment
@@ -189,8 +189,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../EXAMPLES/" title="Examples" class="md-nav__link">
-      Examples
+    <a href="INSTALLATION/" title="Installation" class="md-nav__link">
+      Installation
     </a>
   </li>
 
@@ -213,7 +213,7 @@
         Concepts and Overview
       </label>
     
-    <a href="./" title="Concepts and Overview" class="md-nav__link md-nav__link--active">
+    <a href="." title="Concepts and Overview" class="md-nav__link md-nav__link--active">
       Concepts and Overview
     </a>
     
@@ -499,7 +499,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
+    <a href="FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
       Functions and Methods
     </a>
   </li>
@@ -511,8 +511,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../INSTALLATION/" title="Installation" class="md-nav__link">
-      Installation
+    <a href="EXAMPLES/" title="Examples" class="md-nav__link">
+      Examples
     </a>
   </li>
 
@@ -815,7 +815,7 @@
                 
                 
                 <h1 id="deployment"><strong>Deployment</strong></h1>
-<p><img alt="" src="../utils/_aux/deploy_logo.png" /></p>
+<p><img alt="" src="utils/_aux/deploy_logo.png" /></p>
 <p><br/><br/></p>
 <h2 id="introduction"><strong>Introduction</strong></h2>
 <p>This framework provides a way to set up model deployment from reusable and modular components. The aim is to generalize how models are deployed at DL, although the tools within this might be useful for other tasks as well.</p>
@@ -1049,7 +1049,7 @@ See <a href="#multiprocessing-across-pipeline">Multiprocessing Across Pipeline</
 </div>
 <p>Whenever the <code>summarize</code> method is called, it is able to provide the summary for all runs done until that point. As such, to get a summary for the whole deployment, add this as the last line of the code.</p>
 <p>Here is a summary of from the <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/deployment/examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">wind turbines example with multiprocessing</a></p>
-<p><img alt="" src="../examples/wind_turbines/wind_turbines_summary.png" /></p>
+<p><img alt="" src="examples/wind_turbines/wind_turbines_summary.png" /></p>
 <p><br/><br/></p>
 <h2 id="variable-sharing-routines"><strong>Variable Sharing Routines</strong></h2>
 <p>Components allow variable sharing by providing a routine like <code>&lt;component_obj&gt;.future_variable.&lt;variable_name&gt;</code>. When recording a variable and passing it as a <code>runtime_arg</code> for another component via this routine, care must be taken if the component functions are doing in-place operations.
@@ -1151,7 +1151,7 @@ Consider the following example</p>
 <p>This framework provides easy ways to multiprocess pipeline runs.</p>
 <h3 id="ways-to-multiprocess"><strong>Ways to Multiprocess</strong></h3>
 <p>There are two ways one could multiprocess: <strong>within pipeline</strong> and <strong>across pipeline</strong></p>
-<p><img alt="" src="../utils/_aux/pipeline_3.png" /></p>
+<p><img alt="" src="utils/_aux/pipeline_3.png" /></p>
 <p><br></p>
 <h4 id="multiprocessing-within-pipeline"><strong>Multiprocessing Within Pipeline</strong></h4>
 <p>In this case the components of a pipeline run asynchronously, and if the pipeline is being run in a loop, each component in a given iteration of that loop is allowed to start processing as soon as the corresponding component from previous iteration completes its processing. As such, at any given instance, exactly one iteration-instance of a component will be running.</p>
@@ -1165,8 +1165,8 @@ Consider the following example</p>
 </thead>
 <tbody>
 <tr>
-<td align="center"><img alt="" src="../utils/_aux/pipeline_1.png" /></td>
-<td align="center"><img alt="" src="../utils/_aux/pipeline_2.png" /></td>
+<td align="center"><img alt="" src="utils/_aux/pipeline_1.png" /></td>
+<td align="center"><img alt="" src="utils/_aux/pipeline_2.png" /></td>
 </tr>
 </tbody>
 </table>
@@ -1321,9 +1321,9 @@ To setup your pipeline to multiprocess this way, provide/do the following:</p>
 As such, if you call the <code>map</code> method and have <code>parallelize=True</code> set during pipeline compilation, it will throw an exception. Also, when calling the <code>map</code> method, <code>queue_size</code> and <code>run_async</code> of a component are irrelevant.</p>
 <h3 id="comparison-of-multiprocessing-vs-not"><strong>Comparison of Multiprocessing vs Not</strong></h3>
 <p>The following figure shows the advantage of multiprocessing within pipeline wrt the <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/deployment/examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">wind_turbines example</a>
-<img alt="" src="../examples/wind_turbines/time_compare.png" /></p>
+<img alt="" src="examples/wind_turbines/time_compare.png" /></p>
 <p>The following figure shows the advantage of multiprocessing across pipeline wrt the <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/deployment/examples/sklearn/sklearn_parallel_across_pipeline.py">sklearn example</a>
-<img alt="" src="../examples/sklearn/time_compare.png" /></p>
+<img alt="" src="examples/sklearn/time_compare.png" /></p>
 <p><br/><br/></p>
 <h2 id="debugging"><strong>Debugging</strong></h2>
 <p>The framework tries to provide a bunch of options for debugging errors / unexpected outputs. These are especially helpful when multiprocessing.</p>
@@ -1444,7 +1444,7 @@ The return statement would look like <code>return locals()</code></p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../EXAMPLES/" title="Examples" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="INSTALLATION/" title="Installation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1453,13 +1453,13 @@ The return statement would look like <code>return locals()</code></p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Examples
+                Installation
               </span>
             </div>
           </a>
         
         
-          <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="FUNC_DOCS/" title="Functions and Methods" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
@@ -1493,9 +1493,9 @@ The return statement would look like <code>return locals()</code></p>
       
     </div>
     
-      <script src="../assets/javascripts/application.dc02f8ce.js"></script>
+      <script src="assets/javascripts/application.dc02f8ce.js"></script>
       
-      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      <script>app.initialize({version:"1.0.4",url:{base:"."}})</script>
       
     
   </body>
