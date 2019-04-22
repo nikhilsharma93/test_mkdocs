@@ -352,8 +352,8 @@
 
 
   <li class="md-nav__item">
-    <a href=".." title="Concepts and Overview" class="md-nav__link">
-      Concepts and Overview
+    <a href="../EXAMPLES/" title="Examples" class="md-nav__link">
+      Examples
     </a>
   </li>
 
@@ -388,8 +388,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../EXAMPLES/" title="Examples" class="md-nav__link">
-      Examples
+    <a href=".." title="Concepts and Overview" class="md-nav__link">
+      Concepts and Overview
     </a>
   </li>
 
@@ -574,9 +574,9 @@
 <h4 id="pipelines-run-method"><strong>Pipeline's <code>run</code> method</strong></h4>
 <p>This method is used to ask the pipeline to run either sequentially, or via <a href="/test_mkdocs/multiprocessing-within-pipeline">multiprocessing within the pipeline</a>. To run a pipeline means to run the components in the specified order (see what it means to <a href="#running-a-component">run a component</a>).</p>
 <p>If it is the first time that the <code>run</code> method is being called on a pipeline instance, then it calls a <code>_preset</code> method, which inturn asks each component to <em>preset</em> (see what it means to <a href="#preset-a-component">preset a component</a>).</p>
-<p>If the pipeline is not set to parallelize, it just launches the <code>_run</code> method one-by-one for all the components it was compiled with (see what <a href="#pipeline's-_run-method">pipeline _run method</a> does).</p>
+<p>If the pipeline is not set to parallelize, it just launches the <code>_run</code> method one-by-one for all the components it was compiled with (see what <a href="#pipeline's-map-method">pipeline _run method</a> does).</p>
 <p>When in parallelize mode, the pipeline provides each component with an option to be run in the main process instead of a forked process. The component is responsible for setting this flag. As such, in this parallelize mode, when a <code>run</code> is called on the pipeline, it loops through each component in the specified run order, and calls the <code>_run</code> method if it is to be run in a forked process, or just adds that component to a list of <em>future jobs</em> if it is to be run in the main process. The <code>_run</code> call in this case launches an asynchronous job under the hood, and returns immediately. As such, when the pipeline is done iterating over all the components, it now runs the <em>future jobs</em> (if any) sequentially in the main process, and then waits for any of the async jobs launched via <code>_run</code>. This is done by calling the <code>wait</code> method on the pipeline.</p>
-<h4 id="pipelines-map-method"><strong>Pipeline's <code>map</code> method</strong></h4>
+<h4 id="pipelines-map-method"><strong>Pipeline's map method</strong></h4>
 <p>This is an alternative to the <code>run</code> method, and is meant to be used when <a href="/test_mkdocs/multiprocessing-across-pipeline">multiprocessing across pipelines</a>. It is similar to <code>multiprocessing.Pool.map</code> method in that it takes the pipeline to run, and maps the given arguments across the specified number of cores. Under the hood, it just calls a new <code>multiprocessing.Process</code> on its <code>run</code> method (which inturn calls the <code>_run</code> method in sequential mode; the components within a pipeline as such are run sequentially, while the parallelism happens <em>across</em> the pipeline runs).</p>
 <h4 id="pipelines-_run-method"><strong>Pipeline's <code>_run</code> method</strong></h4>
 <p>This is a private method that is meant to be called from the <code>run</code> method. It just takes in the component to run, and if it has to be run async, then it executes that component in a new <code>multiprocessing.Process</code>, else just executes it in the main process.</p>
@@ -646,13 +646,13 @@ Whenever a component catches an exception, it reports it to its pipeline. The pi
       <nav class="md-footer-nav__inner md-grid">
         
         
-          <a href=".." title="Concepts and Overview" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../EXAMPLES/" title="Examples" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Concepts and Overview
+                Examples
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
