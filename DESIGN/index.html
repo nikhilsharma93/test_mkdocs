@@ -189,6 +189,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
+      Functions and Methods
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href=".." title="Concepts and Overview" class="md-nav__link">
       Concepts and Overview
     </a>
@@ -201,32 +213,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../INSTALLATION/" title="Installation" class="md-nav__link">
-      Installation
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../EXAMPLES/" title="Examples" class="md-nav__link">
       Examples
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
-      Functions and Methods
     </a>
   </li>
 
@@ -391,6 +379,18 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../INSTALLATION/" title="Installation" class="md-nav__link">
+      Installation
+    </a>
   </li>
 
         
@@ -584,12 +584,12 @@
 <p>This is intended to provide a summary of <strong>all</strong> the pipeline runs that have happened till the point this method gets called. It essentially just gets the run-times for each pipeline (and each of their components) and prints it in a formatted way to stdout. Optionally, it uses OpenCV to turn all these into a graph like diagram.</p>
 <p><br/><br/></p>
 <h2 id="component-design"><strong>Component Design</strong></h2>
-<p>The Component class is responsible for a single python function, starting from gathering its input arguments to running it to gathering and storing the required output values. Further, it is also responsible cleaning up its stored output variables ASAP. It is designed to receive execution calls [and report any exceptions] from [to] the pipeline it belongs to.</p>
+<p>The Component class is responsible for a single python function, starting from gathering its input arguments - to running it - to gathering and storing the required output values. Further, it is also responsible for cleaning up its stored output variables ASAP. It is designed to receive execution calls [and report any exceptions] from [to] the pipeline it belongs to.</p>
 <h4 id="component-initialization"><strong>Component Initialization</strong></h4>
 <p>Each component should have a unique name per pipeline. Components across different pipelines can have the same name. On initialization, every component should necessarily provide a name for it, and the python function to attach to it. Other arguments are optional. Most of them are only used when <a href="/test_mkdocs/#multiprocessing-within-pipeline">multiprocessing within pipeline</a>. The <code>run_async</code> flag controls whether or not the component should be run in the main process.</p>
 <h4 id="component-compilation"><strong>Component Compilation</strong></h4>
 <p>This is called from the pipeline the component belongs to, and is responsible for initializing (if required) and/or updating existing variables.
-Right now, it does not anything when not parallelizing. Else, when parallelizing, it initializes shared objects, and converts any python objects to shared objects if they are meant to be accessed by other processes. See QueueDict (#queuedict)</p>
+Right now, it does not anything when not parallelizing. Else, when parallelizing, it initializes shared objects, and converts any python objects to shared objects if they are meant to be accessed by other processes. See <a href="#queuedict">QueueDict</a></p>
 <h4 id="preset-a-component"><strong>Preset a Component</strong></h4>
 <p>This does some checks on possible issues such as floating recorded outputs, missing runtime variables, etc. This only happens once per component.</p>
 <h4 id="running-a-component"><strong>Running a Component</strong></h4>
@@ -645,7 +645,7 @@ Whenever a component catches an exception, it reports it to its pipeline. The pi
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../EXAMPLES/" title="Examples" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -654,11 +654,25 @@ Whenever a component catches an exception, it reports it to its pipeline. The pi
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Functions and Methods
+                Examples
               </span>
             </div>
           </a>
         
+        
+          <a href="../INSTALLATION/" title="Installation" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Installation
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
         
       </nav>
     </div>
