@@ -187,54 +187,6 @@
           
           
 
-
-  <li class="md-nav__item">
-    <a href=".." title="Concepts and Overview" class="md-nav__link">
-      Concepts and Overview
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../EXAMPLES/" title="Examples" class="md-nav__link">
-      Examples
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
-      Functions and Methods
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../INSTALLATION/" title="Installation" class="md-nav__link">
-      Installation
-    </a>
-  </li>
-
-        
-          
-          
-          
-
   
 
 
@@ -282,8 +234,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#compiling-a-pipeline" title="Compiling a Pipeline" class="md-nav__link">
-    Compiling a Pipeline
+  <a href="#pipeline-compilation" title="Pipeline Compilation" class="md-nav__link">
+    Pipeline Compilation
   </a>
   
 </li>
@@ -376,6 +328,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#queuedict" title="QueueDict" class="md-nav__link">
+    QueueDict
+  </a>
+  
+</li>
+      
       
       
       
@@ -384,6 +343,54 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../EXAMPLES/" title="Examples" class="md-nav__link">
+      Examples
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../INSTALLATION/" title="Installation" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Concepts and Overview" class="md-nav__link">
+      Concepts and Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
+      Functions and Methods
+    </a>
   </li>
 
         
@@ -433,8 +440,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#compiling-a-pipeline" title="Compiling a Pipeline" class="md-nav__link">
-    Compiling a Pipeline
+  <a href="#pipeline-compilation" title="Pipeline Compilation" class="md-nav__link">
+    Pipeline Compilation
   </a>
   
 </li>
@@ -527,6 +534,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#queuedict" title="QueueDict" class="md-nav__link">
+    QueueDict
+  </a>
+  
+</li>
+      
       
       
       
@@ -549,21 +563,21 @@
                 <p><strong>The purpose of this document is to explain the framework design, the choices made, and places for improvement.</strong></p>
 <p><br/><br/></p>
 <h2 id="pipeline-design"><strong>Pipeline Design</strong></h2>
-<p>The Pipeline class is reponsible for controlling the runs of the components it is assigned. This includes things like maintaing what components are run serially, what are run in parallel, what components use the main process, what use forked processes, etc. It is also responsible for providing additional features like <a href="#summary">summarizing component runs</a>. Assignment of components happens via the <code>compile_pipeline</code> method. The general lifecycle of a pipeline is as follows.</p>
+<p>The Pipeline class is reponsible for controlling the runs of the components it is assigned. This includes things like maintaing what components are run serially, what are run in parallel, what components use the main process, what use forked processes, etc. It is also responsible for providing additional features like <a href="#/test_mkdocs/#getting-a-summary-of-pipeline-runs">summarizing component runs</a>. Assignment of components happens via the <code>compile_pipeline</code> method. The general lifecycle of a pipeline is as follows.</p>
 <h4 id="pipeline-initialization"><strong>Pipeline Initialization</strong></h4>
 <p>Each pipeline should have a unique name. A class level variable <code>_mapper_pipeline_name_obj</code> helps maintain references from these names to actual objects in memory.</p>
 <p>On initialization, it creates a number of variables, most of which are to track and record components execution status, run order, etc. It also initializes class level <code>multiprocessing.Manager</code> and <code>multiprocessing.SyncManager</code> objects. All the class level variables are meant to be initialized just once per fresh run of a code.</p>
 <h4 id="adding-pipeline-static-variables"><strong>Adding Pipeline Static Variables</strong></h4>
 <p>Each pipeline accepts unto itself a set of static variables that any component can access. Ideally, any component should not access static variables of a pipeline it does not belong to. This, however, is just a <em>good practice</em> case, and the framework as such does not impose restrictions on doing so. Thereby, the scope of variables added via this method is as long as that pipeline instance is in scope.</p>
-<h4 id="compiling-a-pipeline"><strong>Compiling a Pipeline</strong></h4>
+<h4 id="pipeline-compilation"><strong>Pipeline Compilation</strong></h4>
 <p>This is intended to be the last step before calling either a <code>map</code> or a <code>run</code> method on the pipeline. It's duty is to assign the pipeline with the specified set of components, their exact run order, and to make sure everything looks good (as far as it is possible to tell) in terms of the variables set. After doing its own checks, it asks each component (it has been assigned with) to do their own compilation (details of which are discussed in the section <a href="#compiling-a-component">Compiling a Component</a>). Additionally, based on if the pipeline is set to parallelize, it initializes some <code>Manager</code> objects like shared dictionaries, lists, etc.</p>
 <h4 id="pipelines-run-method"><strong>Pipeline's <code>run</code> method</strong></h4>
-<p>This method is used to ask the pipeline to run either sequentially, or via <a href="#multiprocessing">multiprocessing within the pipeline</a>. To run a pipeline means to run the components in the specified order (see what it means to <a href="#running-a-component">run a component</a>).</p>
+<p>This method is used to ask the pipeline to run either sequentially, or via <a href="#/test_mkdocs/multiprocessing-within-pipeline">multiprocessing within the pipeline</a>. To run a pipeline means to run the components in the specified order (see what it means to <a href="#running-a-component">run a component</a>).</p>
 <p>If it is the first time that the <code>run</code> method is being called on a pipeline instance, then it calls a <code>_preset</code> method, which inturn asks each component to <em>preset</em> (see what it means to <a href="#preset-a-component">preset a component</a>).</p>
-<p>If the pipeline is not set to parallelize, it just launches the <code>_run</code> method one-by-one for all the components it was compiled with (see what <a href="#pipeline's-_run-method">pipeline _run method does</a>).</p>
+<p>If the pipeline is not set to parallelize, it just launches the <code>_run</code> method one-by-one for all the components it was compiled with (see what <a href="#pipeline's-_run-method">pipeline _run method</a> does).</p>
 <p>When in parallelize mode, the pipeline provides each component with an option to be run in the main process instead of a forked process. The component is responsible for setting this flag. As such, in this parallelize mode, when a <code>run</code> is called on the pipeline, it loops through each component in the specified run order, and calls the <code>_run</code> method if it is to be run in a forked process, or just adds that component to a list of <em>future jobs</em> if it is to be run in the main process. The <code>_run</code> call in this case launches an asynchronous job under the hood, and returns immediately. As such, when the pipeline is done iterating over all the components, it now runs the <em>future jobs</em> (if any) sequentially in the main process, and then waits for any of the async jobs launched via <code>_run</code>. This is done by calling the <code>wait</code> method on the pipeline.</p>
 <h4 id="pipelines-map-method"><strong>Pipeline's <code>map</code> method</strong></h4>
-<p>This is an alternative to the <code>run</code> method, and is meant to be used when <a href="#multiprocessing">multiprocessing across pipelines</a>. It is similar to <code>multiprocessing.Pool.map</code> method in that it takes the pipeline to run, and maps the given arguments across the specified number of cores. Under the hood, it just calls a new <code>multiprocessing.Process</code> on its <code>run</code> method (which inturn calls the <code>_run</code> method in sequential mode; the components within a pipeline as such are run sequentially, while the parallelism happens <em>across</em> the pipeline runs).</p>
+<p>This is an alternative to the <code>run</code> method, and is meant to be used when <a href="#/test_mkdocs/multiprocessing-across-pipeline">multiprocessing across pipelines</a>. It is similar to <code>multiprocessing.Pool.map</code> method in that it takes the pipeline to run, and maps the given arguments across the specified number of cores. Under the hood, it just calls a new <code>multiprocessing.Process</code> on its <code>run</code> method (which inturn calls the <code>_run</code> method in sequential mode; the components within a pipeline as such are run sequentially, while the parallelism happens <em>across</em> the pipeline runs).</p>
 <h4 id="pipelines-_run-method"><strong>Pipeline's <code>_run</code> method</strong></h4>
 <p>This is a private method that is meant to be called from the <code>run</code> method. It just takes in the component to run, and if it has to be run async, then it executes that component in a new <code>multiprocessing.Process</code>, else just executes it in the main process.</p>
 <h4 id="pipelines-summarize-method"><strong>Pipeline's <code>summarize</code> method</strong></h4>
@@ -572,7 +586,7 @@
 <h2 id="component-design"><strong>Component Design</strong></h2>
 <p>The Component class is responsible for a single python function, starting from gathering its input arguments to running it to gathering and storing the required output values. Further, it is also responsible cleaning up its stored output variables ASAP. It is designed to receive execution calls [and report any exceptions] from [to] the pipeline it belongs to.</p>
 <h4 id="component-initialization"><strong>Component Initialization</strong></h4>
-<p>Each component should have a unique name per pipeline. Components across different pipelines can have the same name. On initialization, every component should necessarily provide a name for it, and the python function to attach to it. Other arguments are optional. Most of them are only used when (multiprocessing within pipeline)(#multiprocessing). The <code>run_async</code> flag controls whether or not the component should be run in the main process.</p>
+<p>Each component should have a unique name per pipeline. Components across different pipelines can have the same name. On initialization, every component should necessarily provide a name for it, and the python function to attach to it. Other arguments are optional. Most of them are only used when (multiprocessing within pipeline)(#/test_mkdocs/multiprocessing-within-pipeline). The <code>run_async</code> flag controls whether or not the component should be run in the main process.</p>
 <h4 id="component-compilation"><strong>Component Compilation</strong></h4>
 <p>This is called from the pipeline the component belongs to, and is responsible for initializing (if required) and/or updating existing variables.
 Right now, it does not anything when not parallelizing. Else, when parallelizing, it initializes shared objects, and converts any python objects to shared objects if they are meant to be accessed by other processes. See QueueDict (#queuedict)</p>
@@ -607,6 +621,10 @@ Right now, it does not anything when not parallelizing. Else, when parallelizing
 <p>When running in no-parallel mode, everything is run in the main process, and any exception caught by the component is raised by its pipeline, and the program terminates as usual.
 However, when multiprocessing, the errors from children (which is where the component is actually run) need to be communicated to the parent. Due to the functionality of the pipeline, it cannot be hung on monitoring async components progress/exceptions: it has to execute the components that were set to run in the main process (via <code>run_async=False</code>). As such, the current design is as follows:
 Whenever a component catches an exception, it reports it to its pipeline. The pipeline puts the execption message and traceback in a shared queue and signals a preset <code>signal handler</code> via <code>os.kill</code>. The signal handler prints the message along with the traceback, and kills the main process. Since all the child processes are started as daemons, they all get killed, and the program terminates. It is to note that due to this, the parent actually always raises a <code>SystemExit</code> whenever there is an exception in a child process. If there is a better way to handle things here, please let us know!</p>
+<p><br/><br/></p>
+<h2 id="queuedict"><strong>QueueDict</strong></h2>
+<p>This is a custom data structure designed to meet the functionality required by the stored component variables when parallelizing within pipeline. In no-parallel mode, there is a dictionary that maps the variable name to its value, that any component can access. However, when parallelizing within pipeline, this dictionary needs to be shareable across processes. The <code>multiprocessing.Manager.dict</code> dictionary provides a shared dictionary, but does not have the concept of a <code>maxsize</code> like <code>multiprocessing.Manager.Queue</code>. The latter has that concept of <code>maxsize</code> but incorporates variable deletion in the <code>get</code> method. Our use case needs to separate the <code>get</code> and <code>delete</code> methods. Hence the need for this custom data structure. It provides a shareable dictionary that implements a <code>put</code>, <code>get</code>, and <code>delete</code> method, while taking a <code>maxsize</code>, such that when the dictionary reaches that size, it can <code>block</code> the <code>put</code> operations with an optional <code>timeout</code>. This class is made shareable across processes by registering it with <code>multiprocessing.SyncManager</code>.</p>
+<p>Due to some weird issues with python's custom exception handling in forked processes, it was not possible to raise exceptions from within any of the QueueDict's methods. As a workaround, any exception caught within those methods instantiates an <code>_ExceptionRaiser</code> object, which gets returned, and the caller then raises that exception if one is present.</p>
                 
                   
                 
@@ -627,20 +645,20 @@ Whenever a component catches an exception, it reports it to its pipeline. The pi
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../INSTALLATION/" title="Installation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
+        
+          <a href="../EXAMPLES/" title="Examples" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
-                  Previous
+                  Next
                 </span>
-                Installation
+                Examples
               </span>
             </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
           </a>
-        
         
       </nav>
     </div>
