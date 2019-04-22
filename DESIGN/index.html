@@ -201,8 +201,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../INSTALLATION/" title="Installation" class="md-nav__link">
-      Installation
+    <a href="../EXAMPLES/" title="Examples" class="md-nav__link">
+      Examples
     </a>
   </li>
 
@@ -213,8 +213,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../EXAMPLES/" title="Examples" class="md-nav__link">
-      Examples
+    <a href="../INSTALLATION/" title="Installation" class="md-nav__link">
+      Installation
     </a>
   </li>
 
@@ -570,7 +570,7 @@
 <h4 id="adding-pipeline-static-variables"><strong>Adding Pipeline Static Variables</strong></h4>
 <p>Each pipeline accepts unto itself a set of static variables that any component can access. Ideally, any component should not access static variables of a pipeline it does not belong to. This, however, is just a <em>good practice</em> case, and the framework as such does not impose restrictions on doing so. Thereby, the scope of variables added via this method is as long as that pipeline instance is in scope.</p>
 <h4 id="pipeline-compilation"><strong>Pipeline Compilation</strong></h4>
-<p>This is intended to be the last step before calling either a <code>map</code> or a <code>run</code> method on the pipeline. It's duty is to assign the pipeline with the specified set of components, their exact run order, and to make sure everything looks good (as far as it is possible to tell) in terms of the variables set. After doing its own checks, it asks each component (it has been assigned with) to do their own compilation (details of which are discussed in the section <a href="#compiling-a-component">Compiling a Component</a>). Additionally, based on if the pipeline is set to parallelize, it initializes some <code>Manager</code> objects like shared dictionaries, lists, etc.</p>
+<p>This is intended to be the last step before calling either a <code>map</code> or a <code>run</code> method on the pipeline. It's duty is to assign the pipeline with the specified set of components, their exact run order, and to make sure everything looks good (as far as it is possible to tell) in terms of the variables set. After doing its own checks, it asks each component (it has been assigned with) to do their own compilation (details of which are discussed in the section <a href="#component-compilation">Compiling a Component</a>). Additionally, based on if the pipeline is set to parallelize, it initializes some <code>Manager</code> objects like shared dictionaries, lists, etc.</p>
 <h4 id="pipelines-run-method"><strong>Pipeline's <code>run</code> method</strong></h4>
 <p>This method is used to ask the pipeline to run either sequentially, or via <a href="#/test_mkdocs/multiprocessing-within-pipeline">multiprocessing within the pipeline</a>. To run a pipeline means to run the components in the specified order (see what it means to <a href="#running-a-component">run a component</a>).</p>
 <p>If it is the first time that the <code>run</code> method is being called on a pipeline instance, then it calls a <code>_preset</code> method, which inturn asks each component to <em>preset</em> (see what it means to <a href="#preset-a-component">preset a component</a>).</p>
