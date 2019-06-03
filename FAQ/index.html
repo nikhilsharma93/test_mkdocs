@@ -189,32 +189,8 @@
 
 
   <li class="md-nav__item">
-    <a href=".." title="Concepts and Overview" class="md-nav__link">
-      Concepts and Overview
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
-      Functions and Methods
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../EXAMPLES/" title="Examples" class="md-nav__link">
-      Examples
+    <a href="../DESIGN/" title="For Developers" class="md-nav__link">
+      For Developers
     </a>
   </li>
 
@@ -237,8 +213,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../DESIGN/" title="For Developers" class="md-nav__link">
-      For Developers
+    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
+      Functions and Methods
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Concepts and Overview" class="md-nav__link">
+      Concepts and Overview
     </a>
   </li>
 
@@ -261,6 +249,18 @@
       FAQ
     </a>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../EXAMPLES/" title="Examples" class="md-nav__link">
+      Examples
+    </a>
   </li>
 
         
@@ -298,14 +298,42 @@
                 
                 
                 <h1 id="faq"><strong>FAQ</strong></h1>
-<p>??? note "What does this framework provide?"
-    - Modular Workflow: The core of this framework is a component that wraps a python function’s execution and holds the property that any component can be connected to any other component, which by extension also means that any component can be swapped in for another, and that any component can be inserted in between pre-existing components. Such flexibility is helpful in scenarios like:
-    If two or more model deployments basically differ in just how a model.predict runs, I could swap the model prediction component alone, and keep everything else the same, knowing that it would work.
-    If I have a deployment code that suddenly starts giving incorrect outputs and I wish to debug, I could just insert debugging components in the pipeline and do the debugging there, instead of inserting a bunch of debugging statements into the native python deployment code and having to properly clean them up later. By adding debugging components, I can still keep the actual components untouched, which keeps the code clean.</p>
-<div class="highlight"><pre><span></span>- Reusability: The idea of a function library is to have a set of functions that are widely / repeatedly used and are flexible in what computed outputs of a function a given user wants. So for instance, a function could be defined to return 10 different values, and then every user would typically only need a subset of those for further steps in their deployment. If you do this by connecting regular python functions, then you run into variable management, where you have to explicitly discard outputs that you are not using, or those that you are done using, at the right time. A Component hides all of this from you, and provides a unified interface so you can now achieve the modular workflow described above.
-
-- Parallelism: Some pipelines have valuable gains in the time taken to run, if their component execution happens in parallel. An example of this from the CV workflow is when you have a component that makes raster calls, and a following component that runs model prediction and post-processing. If we parallelize these components, then the raster call component will not sit idle while the model is predicting / post-processing. You could get an idea of the gains obtained here. The pipeline framework provides such parallelism, without the user having to set it up. Just a control flag is able to turn on the parallelism.
-</pre></div>
+<details class="note"><summary>What does this framework provide?</summary><ul>
+<li>
+<p><strong>Modular Workflow</strong>: The core of this framework is a component that wraps a python function’s execution and holds the property that any component can be connected to any other component, which by extension also means that any component can be swapped in for another, and that any component can be inserted in between pre-existing components. Such flexibility is helpful in scenarios like:</p>
+<ul>
+<li>If two or more model deployments basically differ in just how a model.predict runs, I could swap the model prediction component alone, and keep everything else the same, knowing that it would work.</li>
+<li>If I have a deployment code that suddenly starts giving incorrect outputs and I wish to debug, I could just insert debugging components in the pipeline and do the debugging there, instead of inserting a bunch of debugging statements into the native python deployment code and having to properly clean them up later. By adding debugging components, I can still keep the actual components untouched, which keeps the code clean.</li>
+</ul>
+</li>
+<li>
+<p><strong>Reusability</strong>: The idea of a function library is to have a set of functions that are widely / repeatedly used and are flexible in what computed outputs of a function a given user wants. So for instance, a function could be defined to return 10 different values, and then every user would typically only need a subset of those for further steps in their deployment. If you do this by connecting regular python functions, then you run into variable management, where you have to explicitly discard outputs that you are not using, or those that you are done using, at the right time. A Component hides all of this from you, and provides a unified interface so you can now achieve the modular workflow described above.</p>
+</li>
+<li>
+<p><strong>Parallelism</strong>: Some pipelines have valuable gains in the time taken to run, if their component execution happens in parallel. An example of this from the CV workflow is when you have a component that makes raster calls, and a following component that runs model prediction and post-processing. If we parallelize these components, then the raster call component will not sit idle while the model is predicting / post-processing. You could get an idea of the gains obtained here. The pipeline framework provides such parallelism, without the user having to set it up. Just a control flag is able to turn on the parallelism.</p>
+</li>
+</ul>
+</details>
+<details class="note"><summary>When should I not use this framework?</summary><p>If your deployment use case does not involve the points listed above, then you are better off not using the framework as it would just become an unnecessary wrapper around python functions.
+An example of this is when you are doing a deployment that does not benefit from parallelism, and is not using functions that benefit from being persisted. It is then more like a one-off deployment, and you have more control of things if you just do it with native python functions.</p>
+<p>An object oriented and pre-defined skeleton might work better if you always have the same number and kind of steps in your deployment, and those steps all have consistent input and output signatures.</p>
+</details>
+<details class="note"><summary>How does this compare to Kubeflow?</summary><details class="warning" open="open"><summary>Warning</summary><p>Keep in mind that Kubeflow Pipelines are different from this framework (also called as Pipelines). To avoid confusion, kubeflow pipelines will be referred to as <code>kfp</code> in this section.</p>
+</details>
+<p>The basic idea of pipelines and components is common between this framework and kubeflow. The benefits kubeflow provides can be broken down into two:</p>
+<ul>
+<li>
+<p><strong>Persistability</strong>: Once I set up a model deployment, I can persist it as a kfp. What this means is that even if I come back to deploy the model one year later, all I would have to do is enter some input parameters and hit RUN. The kfp would run and give the expected result without fail.</p>
+</li>
+<li>
+<p><strong>Reusability</strong>: The components in the kfps are all modular and reusable. You could create a component once and then just reuse it across different kfps. However, they are not designed to pass data between them. For instance, if I have a component that makes raster calls and another one that runs model prediction, there is no direct way of passing the raster imagery to the model prediction step; one would have to mount a volume to the pipeline, and read/write from/to that volume to pass data.
+Further, kfps are designed to handle parallelism themselves, and do not play well with our Tasks service.
+Due to these two reasons, we cannot use kubeflow kfps to achieve this reusability piece.</p>
+</li>
+</ul>
+<p>Where our pipelines framework fits in then, is that it provides the reusability piece of kfps.
+The framework can live on its own, and need not be associated with kfps. However, if the persistability aspect of the latter is desired, then the idea is for kubeflow to wrap our deployment framework: you could persist the entire deployment script as just one single kubeflow component in a kfp.</p>
+</details>
                 
                   
                 
@@ -326,7 +354,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../DESIGN/" title="For Developers" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href=".." title="Concepts and Overview" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -335,11 +363,25 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                For Developers
+                Concepts and Overview
               </span>
             </div>
           </a>
         
+        
+          <a href="../EXAMPLES/" title="Examples" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Examples
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
         
       </nav>
     </div>
