@@ -189,8 +189,20 @@
 
 
   <li class="md-nav__item">
-    <a href="DESIGN/" title="For Developers" class="md-nav__link">
-      For Developers
+    <a href="FAQ/" title="FAQ" class="md-nav__link">
+      FAQ
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="EXAMPLES/" title="Examples" class="md-nav__link">
+      Examples
     </a>
   </li>
 
@@ -203,18 +215,6 @@
   <li class="md-nav__item">
     <a href="INSTALLATION/" title="Installation" class="md-nav__link">
       Installation
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
-      Functions and Methods
     </a>
   </li>
 
@@ -397,6 +397,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#returning-variables-from-a-pipeline" title="Returning Variables from a Pipeline" class="md-nav__link">
+    Returning Variables from a Pipeline
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#getting-a-summary-of-pipeline-runs" title="Getting a Summary of Pipeline Runs" class="md-nav__link">
     Getting a Summary of Pipeline Runs
   </a>
@@ -523,8 +530,8 @@
 
 
   <li class="md-nav__item">
-    <a href="FAQ/" title="FAQ" class="md-nav__link">
-      FAQ
+    <a href="DESIGN/" title="For Developers" class="md-nav__link">
+      For Developers
     </a>
   </li>
 
@@ -535,8 +542,8 @@
 
 
   <li class="md-nav__item">
-    <a href="EXAMPLES/" title="Examples" class="md-nav__link">
-      Examples
+    <a href="FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
+      Functions and Methods
     </a>
   </li>
 
@@ -707,6 +714,13 @@
         <li class="md-nav__item">
   <a href="#running-a-pipeline" title="Running a Pipeline" class="md-nav__link">
     Running a Pipeline
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#returning-variables-from-a-pipeline" title="Returning Variables from a Pipeline" class="md-nav__link">
+    Returning Variables from a Pipeline
   </a>
   
 </li>
@@ -1061,6 +1075,37 @@ The user provides where a component gets its input variables from, and what outp
 <p>See <a href="/test_mkdocs/EXAMPLES/#wrapping-pipeline-inside-another-pipeline">an example</a> for understand the <code>run</code> method.
 See <a href="#multiprocessing-across-pipeline">Multiprocessing Across Pipeline</a> for details on the <code>map</code> method.</p>
 <p>The output to stdout includes timestamp, PID stamp, component name stamp, and run count stamp (i.e <code>i</code> where that component is being executed for the <code>i</code><sup>th</sup> time). These stamps are essentially helpful when multiprocessing to separate out messages and logs.</p>
+<p><br/><br/></p>
+<h2 id="returning-variables-from-a-pipeline"><strong>Returning Variables from a Pipeline</strong></h2>
+<p>This feature allows you to persist variables that are returned from a component function after the pipeline finishes its (i.e the component's) execution. This can be useful if you are running a normal python function post a pipeline run and want to access values returned by any of the component's functions, or if you are just debugging and want to anaylize the output in-place.</p>
+<p>To do so, you shoud use the <code>to_persist</code> attribute of a component to ask it to persist variables. It accepts a dictionary <code>(key, value)</code>, where <code>key</code> is the name of the variable in the component's function and <code>value</code> is the name by which you want this variable to be persisted by the component.</p>
+<p>To access this variable, use the syntax <code>&lt;comp_name&gt;.persisted_variable.&lt;variable_name&gt;</code></p>
+<div class="admonition warning">
+<p class="admonition-title">Right now this feature is NOT supported when parallelizing within/across pipelines.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+  <span class="n">a</span> <span class="o">=</span> <span class="mi">5</span>
+  <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>
+
+<span class="n">comp</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;my_comp&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">f</span><span class="p">)</span>
+<span class="n">comp</span><span class="o">.</span><span class="n">to_persist</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;p&#39;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">compile_pipeline</span><span class="p">([</span><span class="n">comp</span><span class="p">],</span> <span class="n">parallelize</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># At this point, if I want to access the value of `a` defined in `f`, I could do:</span>
+<span class="n">my_a</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">persisted_variable</span><span class="o">.</span><span class="n">a</span>
+</pre></div>
+
+</div>
+<p>See a <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/pipelines/examples/basic_example_to_persist.py">full example</a> of this feature.</p>
+<div class="admonition note">
+<p class="admonition-title">to_persist vs to_record</p>
+<p><code>to_persist</code> is different from <code>to_record</code>: The latter is used only to pass variables between different components. The framework automatically deletes those variables (see <a href="#variable-deletion-routines">Variable Deletion Routines</a>) once no other component requires it. On the other hand, the former is used to explicitly ask the component to persist that variable outside of the pipeline run.</p>
+</div>
 <p><br/><br/></p>
 <h2 id="getting-a-summary-of-pipeline-runs"><strong>Getting a Summary of Pipeline Runs</strong></h2>
 <p>The framework is able to give you a summary (number of runs, time taken, order of execution, etc.) for the Pipeline runs that happen. By default, it prints the summary to stdout, but you could also save a graph-like summary to an image file on disk.</p>
@@ -1465,7 +1510,7 @@ The return statement would look like <code>return locals()</code></p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="FUNC_DOCS/" title="Functions and Methods" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="INSTALLATION/" title="Installation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1474,19 +1519,19 @@ The return statement would look like <code>return locals()</code></p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Functions and Methods
+                Installation
               </span>
             </div>
           </a>
         
         
-          <a href="FAQ/" title="FAQ" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="DESIGN/" title="For Developers" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                FAQ
+                For Developers
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
