@@ -36,7 +36,7 @@
     
     
       
-        <title>Examples - Deployment</title>
+        <title>Examples - Pipelines</title>
       
     
     
@@ -84,7 +84,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href=".." title="Deployment" class="md-header-nav__button md-logo">
+        <a href=".." title="Pipelines" class="md-header-nav__button md-logo">
           
             <img src="../utils/_aux/deploy_logo.png" width="24" height="24">
           
@@ -97,7 +97,7 @@
         <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
           
             <span class="md-header-nav__topic">
-              Deployment
+              Pipelines
             </span>
             <span class="md-header-nav__topic">
               Examples
@@ -152,12 +152,12 @@
                   <div class="md-sidebar__inner">
                     <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href=".." title="Deployment" class="md-nav__button md-logo">
+    <a href=".." title="Pipelines" class="md-nav__button md-logo">
       
         <img src="../utils/_aux/deploy_logo.png" width="48" height="48">
       
     </a>
-    Deployment
+    Pipelines
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -191,6 +191,18 @@
   <li class="md-nav__item">
     <a href=".." title="Concepts and Overview" class="md-nav__link">
       Concepts and Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
+      Functions and Methods
     </a>
   </li>
 
@@ -346,8 +358,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
-      Functions and Methods
+    <a href="../FAQ/" title="FAQ" class="md-nav__link">
+      FAQ
     </a>
   </li>
 
@@ -477,14 +489,14 @@
                   <h1>Examples</h1>
                 
                 <h2 id="basic-examples"><strong>Basic Examples</strong></h2>
-<p>(For a full set of examples look under <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/deployment/examples/">examples</a>)</p>
+<p>(For a full set of examples look under <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/pipelines/examples/">examples</a>)</p>
 <h3 id="basic-pipeline"><strong>Basic Pipeline</strong></h3>
-<p><a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/deployment/examples/basic_example.py">Code</a></p>
+<p><a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/pipelines/examples/basic_example.py">Code</a></p>
 <p>Let us say you want to build a two-component pipeline.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">appsci_utils.deployment.deploy</span> <span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">Pipeline</span><span class="p">,</span> <span class="n">repeator</span>
+<span class="kn">from</span> <span class="nn">appsci_utils.pipelines.framework</span> <span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">Pipeline</span><span class="p">,</span> <span class="n">repeator</span>
 
 <span class="n">inp_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">))</span>
 
@@ -531,7 +543,7 @@
 
 </div>
 <h3 id="printing-variables"><strong>Printing Variables</strong></h3>
-<p><a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/deployment/examples/basic_example_print.py">Code</a></p>
+<p><a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/pipelines/examples/basic_example_print.py">Code</a></p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="highlight"><pre><span></span><span class="n">comp2</span><span class="o">.</span><span class="n">to_print</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dummy_variable&#39;</span><span class="p">]</span>
@@ -556,7 +568,7 @@
 
 </div>
 <h3 id="saving-variables"><strong>Saving Variables</strong></h3>
-<p><a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/deployment/examples/basic_example_save.py">Code</a></p>
+<p><a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/pipelines/examples/basic_example_save.py">Code</a></p>
 <p>Just like printing variables, you can also save them. To achieve this, use the <code>to_save</code> attribute of a Component. It accepts a dictionary, where a <code>(key, value)</code> can be of two types:
 - <code>(key, value) = (str, str)</code>: In this case, provide the <code>key</code> with the variable you are trying to save, and provide the full save path as the <code>value</code>. The method to save is inferred from the extension of the save path. Currently, saving <code>numpy</code> files (<code>.npy</code>), and images (<code>.png</code> or <code>.jpg</code>) is supported.
 - <code>(key, value) = (str, function)</code>: In this case, <code>key</code> remains the same as above, but in <code>value</code> provide a python function handle that would take in the positional argument (0th position) of the value of <code>key</code> at runtime and would save it according to the custom method.</p>
@@ -588,7 +600,7 @@
 
 </div>
 <h3 id="adding-static-pipeline-variables"><strong>Adding Static Pipeline Variables</strong></h3>
-<p><a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/deployment/examples/basic_example_static_pipeline_variable.py">Code</a></p>
+<p><a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/pipelines/examples/basic_example_static_pipeline_variable.py">Code</a></p>
 <p>In our basic example, let us say we use <code>demo3</code> from the function library instead of <code>demo2</code> (and as such, <code>comp3</code> instead of <code>comp2</code>), and we want to use the same value for the argument <code>add_value</code> in both <code>demo1</code> and <code>demo3</code>. One way to do this is to add it as <code>static_args</code> in both the components. The other way is to add it as a static pipeline variable just once, and let both the components access it.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
@@ -737,11 +749,11 @@ The inner most pipeline then looks like (get image) + (run model prediction).</p
 <p>Some caution needs to be taken when defining pipelines that work with DLTasks.
 The main tricky point is that Tasks can only take a serializable function as its input.
 Therefore, any pipeline that you want to run within Tasks should be wrapped in a python function.</p>
-<p>Example: <a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/deployment/examples/wind_turbines/wind_turbines_noparallel.py">Wind Turbines Example</a></p>
+<p>Example: <a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/pipelines/examples/wind_turbines/wind_turbines_noparallel.py">Wind Turbines Example</a></p>
 <p><br/><br/></p>
 <h2 id="multiprocessing-examples"><strong>Multiprocessing Examples</strong></h2>
-<p>See <a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/deployment/examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">an example for multiprocessing within pipeline</a></p>
-<p>See <a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/deployment/examples/sklearn/sklearn_parallel_across_pipeline.py">an example for multiprocessing across pipeline</a></p>
+<p>See <a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/pipelines/examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">an example for multiprocessing within pipeline</a></p>
+<p>See <a href="https://github.com/descarteslabs/appsci_utils/tree/deploy_generalize/appsci_utils/pipelines/examples/sklearn/sklearn_parallel_across_pipeline.py">an example for multiprocessing across pipeline</a></p>
                 
                   
                 
@@ -762,7 +774,7 @@ Therefore, any pipeline that you want to run within Tasks should be wrapped in a
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href=".." title="Concepts and Overview" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../FUNC_DOCS/" title="Functions and Methods" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -771,7 +783,7 @@ Therefore, any pipeline that you want to run within Tasks should be wrapped in a
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Concepts and Overview
+                Functions and Methods
               </span>
             </div>
           </a>

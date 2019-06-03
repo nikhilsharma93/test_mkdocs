@@ -36,7 +36,7 @@
     
     
       
-        <title>Concepts and Overview - Deployment</title>
+        <title>Concepts and Overview - Pipelines</title>
       
     
     
@@ -75,7 +75,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#deployment" tabindex="1" class="md-skip">
+      <a href="#pipelines" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -84,7 +84,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="." title="Deployment" class="md-header-nav__button md-logo">
+        <a href="." title="Pipelines" class="md-header-nav__button md-logo">
           
             <img src="utils/_aux/deploy_logo.png" width="24" height="24">
           
@@ -97,7 +97,7 @@
         <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
           
             <span class="md-header-nav__topic">
-              Deployment
+              Pipelines
             </span>
             <span class="md-header-nav__topic">
               Concepts and Overview
@@ -152,12 +152,12 @@
                   <div class="md-sidebar__inner">
                     <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="." title="Deployment" class="md-nav__button md-logo">
+    <a href="." title="Pipelines" class="md-nav__button md-logo">
       
         <img src="utils/_aux/deploy_logo.png" width="48" height="48">
       
     </a>
-    Deployment
+    Pipelines
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -487,6 +487,18 @@
 
 
   <li class="md-nav__item">
+    <a href="FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
+      Functions and Methods
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="EXAMPLES/" title="Examples" class="md-nav__link">
       Examples
     </a>
@@ -523,8 +535,8 @@
 
 
   <li class="md-nav__item">
-    <a href="FUNC_DOCS/" title="Functions and Methods" class="md-nav__link">
-      Functions and Methods
+    <a href="FAQ/" title="FAQ" class="md-nav__link">
+      FAQ
     </a>
   </li>
 
@@ -826,11 +838,12 @@
               
                 
                 
-                <h1 id="deployment"><strong>Deployment</strong></h1>
+                <h1 id="pipelines"><strong>Pipelines</strong></h1>
 <p><img alt="" src="utils/_aux/deploy_logo.png" /></p>
 <p><br/><br/></p>
 <h2 id="introduction"><strong>Introduction</strong></h2>
-<p>This framework provides a way to set up model deployment from reusable and modular components. The aim is to generalize how models are deployed at DL, although the tools within this might be useful for other tasks as well.</p>
+<p>This library provides a pipeline-component framework that allows bundling python functions in user-desired ways, and provides the ability to parallelize them at ease.</p>
+<p>The primary goal of this framework is to generalize how models are deployed at DL, although the tools within this might be useful for other tasks as well.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>You can add the model to a Google bucket and provide the model path as <code>/festivus/&lt;path_to_model_in_googlestorage&gt;</code></p>
@@ -1059,8 +1072,8 @@ See <a href="#multiprocessing-across-pipeline">Multiprocessing Across Pipeline</
 </pre></div>
 
 </div>
-<p>Whenever the <code>summarize</code> method is called, it is able to provide the summary for all runs done until that point. As such, to get a summary for the whole deployment, add this as the last line of the code.</p>
-<p>Here is a summary of from the <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/deployment/examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">wind turbines example with multiprocessing</a></p>
+<p>Whenever the <code>summarize</code> method is called, it is able to provide the summary for all runs done until that point. As such, to get a summary for the whole run, add this as the last line of the code.</p>
+<p>Here is a summary of from the <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/pipelines/examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">wind turbines example with multiprocessing</a></p>
 <p><img alt="" src="examples/wind_turbines/wind_turbines_summary.png" /></p>
 <p><br/><br/></p>
 <h2 id="variable-sharing-routines"><strong>Variable Sharing Routines</strong></h2>
@@ -1332,9 +1345,9 @@ To setup your pipeline to multiprocess this way, provide/do the following:</p>
 <p><strong>At this time, you cannot multiprocess within and across pipeline at the same time</strong>.
 As such, if you call the <code>map</code> method and have <code>parallelize=True</code> set during pipeline compilation, it will throw an exception. Also, when calling the <code>map</code> method, <code>queue_size</code> and <code>run_async</code> of a component are irrelevant.</p>
 <h3 id="comparison-of-multiprocessing-vs-not"><strong>Comparison of Multiprocessing vs Not</strong></h3>
-<p>The following figure shows the advantage of multiprocessing within pipeline wrt the <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/deployment/examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">wind_turbines example</a>
+<p>The following figure shows the advantage of multiprocessing within pipeline wrt the <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/pipelines/examples/wind_turbines/wind_turbines_parallel_within_pipeline.py">wind_turbines example</a>
 <img alt="" src="examples/wind_turbines/time_compare.png" /></p>
-<p>The following figure shows the advantage of multiprocessing across pipeline wrt the <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/deployment/examples/sklearn/sklearn_parallel_across_pipeline.py">sklearn example</a>
+<p>The following figure shows the advantage of multiprocessing across pipeline wrt the <a href="https://github.com/descarteslabs/appsci_utils/blob/deploy_generalize/appsci_utils/pipelines/examples/sklearn/sklearn_parallel_across_pipeline.py">sklearn example</a>
 <img alt="" src="examples/sklearn/time_compare.png" /></p>
 <p><br/><br/></p>
 <h2 id="debugging"><strong>Debugging</strong></h2>
@@ -1363,7 +1376,7 @@ See <a href="#component-function-requirements">Component Function Requirements</
 </li>
 <li>
 <p><code>Helper Function</code>: These functions are meant to used within Component Functions (<strong>NOT</strong> Components). They should just be regular python functions, returning whatever variables applicable.
-Example: <a href="https://github.com/descarteslabs/appsci_utils/blob/c9950c5c3f10d8d6b3f9cd0470727774b02040c2/appsci_utils/deployment/func_library.py#L24">model_predict_func</a></p>
+Example: <a href="https://github.com/descarteslabs/appsci_utils/blob/c9950c5c3f10d8d6b3f9cd0470727774b02040c2/appsci_utils/pipelines/func_library.py#L24">model_predict_func</a></p>
 </li>
 </ul>
 <p><br/><br/></p>
@@ -1385,10 +1398,10 @@ The return statement would look like <code>return locals()</code></p>
 </div>
 <p><br/><br/></p>
 <h2 id="repeator"><strong>Repeator</strong></h2>
-<p>When providing input dictionaries for <code>Component.to_record</code> (as an example), it might get tedious to do something like: <code>Component.to_record = dict(batch_imgs='batch_imgs', pad='pad', tile='tile', res='res')</code>. Instead, you could use <code>deploy.repeator</code> to avoid the repetition:</p>
+<p>When providing input dictionaries for <code>Component.to_record</code> (as an example), it might get tedious to do something like: <code>Component.to_record = dict(batch_imgs='batch_imgs', pad='pad', tile='tile', res='res')</code>. Instead, you could use <code>framework.repeator</code> to avoid the repetition:</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">appsci_utils.deployment.deploy</span> <span class="kn">import</span> <span class="n">repeator</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">appsci_utils.pipelines.framework</span> <span class="kn">import</span> <span class="n">repeator</span>
 
 <span class="n">Component</span><span class="o">.</span><span class="n">to_record</span> <span class="o">=</span> <span class="n">repeator</span><span class="p">(</span><span class="s1">&#39;batch_imgs&#39;</span><span class="p">,</span> <span class="s1">&#39;pad&#39;</span><span class="p">,</span> <span class="s1">&#39;tile&#39;</span><span class="p">,</span> <span class="s1">&#39;res&#39;</span><span class="p">)</span>
 
@@ -1453,13 +1466,13 @@ The return statement would look like <code>return locals()</code></p>
       <nav class="md-footer-nav__inner md-grid">
         
         
-          <a href="EXAMPLES/" title="Examples" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="FUNC_DOCS/" title="Functions and Methods" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Examples
+                Functions and Methods
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
